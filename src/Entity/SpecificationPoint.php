@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Form\EditChampionshipSpecificationPoint;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -42,6 +43,11 @@ class SpecificationPoint
         $this->loosePoint = $loosePoint;
         $this->looseWithBonusPoint = $looseWithBonusPoint;
         $this->forfeitPoint = $forfeitPoint;
+    }
+
+    public static function create(EditChampionshipSpecificationPoint $editChampionshipSpecificationPoint): self
+    {
+        return new self($editChampionshipSpecificationPoint->winPoint, $editChampionshipSpecificationPoint->winWithBonusPoint, $editChampionshipSpecificationPoint->loosePoint, $editChampionshipSpecificationPoint->looseWithBonusPoint, $editChampionshipSpecificationPoint->forfeitPoint);
     }
 
     public function getWinPoint(): ?int

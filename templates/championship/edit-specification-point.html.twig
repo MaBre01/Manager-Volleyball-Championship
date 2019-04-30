@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Specification point</h1>
+
+    <div class="col-12 col-md-6 mx-auto">
+        {{ form_start( editSpecificationPointForm ) }}
+
+            <div class="form-group row">
+                <div class="col-4">
+                    {{ form_label( editSpecificationPointForm.winWithBonusPoint, 'Victoire (3-0, 3-1)') }}
+                </div>
+                <div class="col-8">
+                    {{ form_widget( editSpecificationPointForm.winWithBonusPoint ) }}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-4">
+                    {{ form_label( editSpecificationPointForm.winPoint, 'Victoire (3-2)') }}
+                </div>
+                <div class="col-8">
+                    {{ form_widget( editSpecificationPointForm.winPoint ) }}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-4">
+                    {{ form_label( editSpecificationPointForm.looseWithBonusPoint, 'Défaite (2-3)') }}
+                </div>
+                <div class="col-8">
+                    {{ form_widget( editSpecificationPointForm.looseWithBonusPoint ) }}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-4">
+                    {{ form_label( editSpecificationPointForm.loosePoint, 'Défaite (0-3, 1-3)') }}
+                </div>
+                <div class="col-8">
+                    {{ form_widget( editSpecificationPointForm.loosePoint ) }}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-4">
+                    {{ form_label( editSpecificationPointForm.forfeitPoint, 'Forfait') }}
+                </div>
+                <div class="col-8">
+                    {{ form_widget( editSpecificationPointForm.forfeitPoint ) }}
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-primary" type="submit">Modifier</button>
+            </div>
+
+        {{ form_end( editSpecificationPointForm ) }}
+    </div>
+
+{% endblock %}

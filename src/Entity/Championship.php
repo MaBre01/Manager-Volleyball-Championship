@@ -58,6 +58,11 @@ class Championship
         $this->name = $name;
     }
 
+    public function updateSpecificationPoint(SpecificationPoint $specificationPoint): void
+    {
+        $this->specificationPoint = $specificationPoint;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -68,7 +73,7 @@ class Championship
         return $this->name;
     }
 
-    public function getBegan(): bool
+    public function isBegan(): bool
     {
         return $this->began;
     }

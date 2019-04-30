@@ -3,5 +3,15 @@
 {% block body %}
     <h1>{{ championship.name }}</h1>
 
+    {% if championship.began %}
+
+        {% include 'championship/partial/began.html.twig' %}
+
+    {% else %}
+
+        {% include 'championship/partial/unbegan.html.twig' %}
+
+    {% endif %}
+
 
 {% endblock %}

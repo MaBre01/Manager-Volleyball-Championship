@@ -5,8 +5,11 @@ namespace App\Controller;
 
 
 use App\Entity\Championship;
+use App\Entity\SpecificationPoint;
 use App\Exception\ChampionshipNotFound;
 use App\Form\EditChampionship;
+use App\Form\EditChampionshipSpecificationPoint;
+use App\Form\EditChampionshipSpecificationPointType;
 use App\Form\EditChampionshipType;
 use App\Repository\ChampionshipRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -88,6 +91,56 @@ class ChampionshipController extends AbstractController
 
         return $this->render('championship/page.html.twig',[
             'championship' => $championship
+        ]);
+    }
+
+    /**
+     * @Route("/championship/{championshipId}/specification-point", name="edit_specification_point_championship")
+     */
+    public function updateSpecificationPoint(int $championshipId, Request $request, ChampionshipRepository $championshipRepository): Response
+    {
+        try{
+            $championship = $championshipRepository->getById( $championshipId );
+        }
+        catch(ChampionshipNotFound $exception){
+            return $this->redirectToRoute('list_championship');
+        }
+
+        if( $championship->isBegan() ){
+            return $this->redirectToRoute('page_championship', [
+                "championshipId" => $championship->getId()
+            ]);
+        }
+
+        $editForm = $this->createForm(
+            EditChampionshipSpecificationPointType::class,
+            new EditChampionshipSpecificationPoint(
+                $championship->getSpecificationPoint()->getWinPoint(),
+                $championship->getSpecificationPoint()->getWinWithBonusPoint(),
+                $championship->getSpecificationPoint()->getLoosePoint(),
+                $championship->getSpecificationPoint()->getLooseWithBonusPoint(),
+                $championship->getSpecificationPoint()->getForfeitPoint()
+            )
+        );
+
+        $editForm->handleRequest( $request );
+
+        if( $editForm->isSubmitted() && $editForm->isValid() ){
+            $editSpecificationPoint = $editForm->getData();
+
+            $specificationPoint = SpecificationPoint::create( $editSpecificationPoint );
+            $championship->updateSpecificationPoint( $specificationPoint );
+
+            $championshipRepository->save( $championship );
+
+            return $this->redirectToRoute('page_championship', [
+                "championshipId" => $championship->getId()
+            ]);
+        }
+
+        return $this->render('championship/edit-specification-point.html.twig', [
+            "editSpecificationPointForm" => $editForm->createView(),
+            "championship" => $championship
         ]);
     }
 }
