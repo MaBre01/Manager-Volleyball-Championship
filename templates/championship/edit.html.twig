@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>{% if editMode %}Modifier{% else %}Ajouter{% endif %} un championnat</h1>
+
+    {{ form_start( editChampionshipForm ) }}
+
+
+        <div class="form-group">
+            {{ form_label( editChampionshipForm.name, "Nom du championnat" ) }}
+            {{ form_widget( editChampionshipForm.name ) }}
+        </div>
+
+        <div class="d-flex justify-content-end">
+            <button class="btn btn-primary" type="submit">{% if editMode %}Modifier{% else %}Ajouter{% endif %} le championnat</button>
+        </div>
+
+
+    {{ form_end( editChampionshipForm ) }}
+
+
+{% endblock %}

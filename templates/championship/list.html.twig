@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Les championnats</h1>
+
+    <div class="d-flex justify-content-end">
+        <a class="btn btn-primary" href="{{ path('add_championship') }}">Ajouter un championnat</a>
+    </div>
+
+    <ul class="list-group">
+        {% if championships | length > 0 %}
+
+            {% for championship in championships %}
+
+                <li class="list-group-item d-flex justify-content-between">
+                    {{ championship.name }}
+                    <div>
+                        <a class="btn btn-outline-info" href="{{ path('page_championship', {championshipId: championship.id}) }}">Voir la page</a>
+                        <a class="btn btn-outline-info" href="{{ path('edit_championship', {championshipId: championship.id}) }}">Modifier</a>
+                    </div>
+                </li>
+
+            {% endfor %}
+
+        {% else %}
+
+            <li class="list-group-item m-2">Aucun championnat</li>
+
+        {% endif %}
+    </ul>
+
+{% endblock %}

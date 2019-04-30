@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Form\EditChampionship;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -38,11 +39,23 @@ class Championship
      */
     private $gameDays;
 
-    public function __construct(string $name)
+    public function __construct(string $name, SpecificationPoint $specificationPoint)
     {
         $this->name = $name;
         $this->began = false;
+        $this->specificationPoint = $specificationPoint;
+
         $this->gameDays = new ArrayCollection();
+    }
+
+    public static function create(EditChampionship $editChampionship): self
+    {
+        return new self($editChampionship->name, new SpecificationPoint(2,3,0,1,-1));
+    }
+
+    public function rename(string $name): void
+    {
+        $this->name = $name;
     }
 
     public function getId(): ?int
