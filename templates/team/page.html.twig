@@ -3,5 +3,8 @@
 {% block body %}
     <h1>{{ team.name }}</h1>
 
+    {% include 'team/partial/menu.html.twig' %}
+
+    <a href="{{ path('edit_team', {teamId: team.id}) }}">Modifier</a>
 
 {% endblock %}

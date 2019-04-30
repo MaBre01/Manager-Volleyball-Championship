@@ -60,6 +60,11 @@ class Team
         return new self($editTeam->id, $editTeam->name, $editTeam->club);
     }
 
+    public function rename(string $name): void
+    {
+        $this->name = $name;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

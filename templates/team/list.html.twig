@@ -2,4 +2,24 @@
 
 {% block body %}
     <h1>Les équipes</h1>
+
+    <ul>
+
+        {% if teams | length > 0 %}
+
+            {% for team in teams %}
+
+                <li>
+                    {{ team.name }}
+                </li>
+
+            {% endfor %}
+
+        {% else %}
+
+            <li>Aucune équipe</li>
+
+        {% endif %}
+
+    </ul>
 {% endblock %}
