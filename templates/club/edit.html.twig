@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>{% if editMode %}Modifier{% else %}Ajouter{% endif %} un club</h1>
+
+    <div class="col-12 col-md-6 mx-auto">
+        {{ form_start( editClubForm) }}
+
+        <div class="form-group">
+            {{ form_label( editClubForm.name, 'Nom du club' ) }}
+            {{ form_widget( editClubForm.name, {'attr': {'class': 'form-control'}} ) }}
+        </div>
+
+        <button class="btn btn-primary" type="submit">{% if editMode %}Modifier{% else %}Ajouter{% endif %} le club</button>
+
+        {{ form_end( editClubForm ) }}
+    </div>
+
+
+{% endblock %}

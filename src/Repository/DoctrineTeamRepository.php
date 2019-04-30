@@ -13,7 +13,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @method Team[]    findAll()
  * @method Team[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class DoctrineTeamRepository extends ServiceEntityRepository
+class DoctrineTeamRepository extends ServiceEntityRepository implements TeamRepository
 {
     public function __construct(RegistryInterface $registry)
     {

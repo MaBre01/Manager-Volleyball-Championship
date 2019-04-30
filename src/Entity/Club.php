@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Form\EditClub;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -29,15 +30,27 @@ class Club
     private $pitches;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Team", mappedBy="club", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Team", mappedBy="club", orphanRemoval=true, cascade={"persist"})
      */
     private $teams;
 
-    public function __construct(string $name)
+    public function __construct(int $id, string $name)
     {
+        $this->id = $id;
         $this->name = $name;
+
         $this->pitches = new ArrayCollection();
         $this->teams = new ArrayCollection();
+    }
+
+    public static function register(EditClub $editClub): self
+    {
+        return new self($editClub->id, $editClub->name);
+    }
+
+    public function rename(string $name): void
+    {
+        $this->name = $name;
     }
 
     public function getId(): ?int
@@ -93,7 +106,6 @@ class Club
     {
         if (!$this->teams->contains($team)) {
             $this->teams[] = $team;
-            $team->setClub($this);
         }
 
         return $this;

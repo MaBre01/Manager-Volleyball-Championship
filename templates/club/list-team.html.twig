@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>{{ club.name }}</h1>
+
+    <h2>Les équipes</h2>
+
+    <div class="d-flex justify-content-end">
+        <a class="btn btn-primary" href="{{ path('add_team_club', {clubId: club.id}) }}">Ajouter une équipe</a>
+    </div>
+
+    <ul>
+
+        {% if club.teams | length > 0 %}
+
+            {% for team in club.teams %}
+
+                <li class="list-group-item d-flex justify-content-between m-1 rounded">
+                    {{ team.name }}
+                    <a class="btn btn-outline-info" href="{{ path('page_team', {'teamId': team.id}) }}">Voir la page</a>
+                </li>
+
+            {% endfor %}
+
+        {% else %}
+
+            <li class="list-group-item d-flex justify-content-between m-1 rounded">Aucune équipe dans ce club</li>
+
+        {% endif %}
+
+    </ul>
+
+{% endblock %}

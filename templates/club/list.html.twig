@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Les clubs</h1>
+
+    <div class="d-flex justify-content-end">
+        <a class="btn btn-primary" href="{{ path('add_club') }}">Ajouter un club</a>
+    </div>
+
+
+    <ul class="list-group my-4">
+        {% if clubs | length > 0 %}
+
+            {% for club in clubs %}
+
+                <li class="list-group-item d-flex justify-content-between m-1 rounded">
+                    <span>{{ club.name }}</span>
+                    <div>
+                        <a class="btn btn-outline-info" href="{{ path('page_club', {clubId: club.id}) }}">Voir page</a>
+                        <a class="btn btn-outline-danger" href="{{ path('remove_club', {clubId: club.id}) }}">Supprimer club</a>
+                    </div>
+
+                </li>
+
+            {% endfor %}
+
+        {% else %}
+
+            <li class="list-group-item d-flex justify-content-between m-1 rounded">Aucun club existant</li>
+
+        {% endif %}
+    </ul>
+
+
+{% endblock %}

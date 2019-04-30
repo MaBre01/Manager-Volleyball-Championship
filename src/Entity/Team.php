@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Form\EditTeam;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -44,12 +45,19 @@ class Team
      */
     private $games;
 
-    public function __construct(string $name)
+    public function __construct(int $id, string $name, Club $club)
     {
+        $this->id = $id;
         $this->name = $name;
         $this->point = 0;
         $this->validated = false;
+        $this->club = $club;
         $this->games = new ArrayCollection();
+    }
+
+    public static function create(EditTeam $editTeam): self
+    {
+        return new self($editTeam->id, $editTeam->name, $editTeam->club);
     }
 
     public function getId(): ?int
