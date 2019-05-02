@@ -45,6 +45,11 @@ class Team
      */
     private $games;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Championship", inversedBy="teams")
+     */
+    private $championship;
+
     public function __construct(int $id, string $name, Club $club)
     {
         $this->id = $id;
@@ -117,6 +122,18 @@ class Team
                 $game->setHomeTeam(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getChampionship(): ?Championship
+    {
+        return $this->championship;
+    }
+
+    public function setChampionship(?Championship $championship): self
+    {
+        $this->championship = $championship;
 
         return $this;
     }

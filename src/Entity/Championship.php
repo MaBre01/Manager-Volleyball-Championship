@@ -39,6 +39,11 @@ class Championship
      */
     private $gameDays;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Team", mappedBy="championship")
+     */
+    private $teams;
+
     public function __construct(string $name, SpecificationPoint $specificationPoint)
     {
         $this->name = $name;
@@ -46,6 +51,7 @@ class Championship
         $this->specificationPoint = $specificationPoint;
 
         $this->gameDays = new ArrayCollection();
+        $this->teams = new ArrayCollection();
     }
 
     public static function create(EditChampionship $editChampionship): self
@@ -108,6 +114,37 @@ class Championship
             // set the owning side to null (unless already changed)
             if ($gameDay->getChampionship() === $this) {
                 $gameDay->setChampionship(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Team[]
+     */
+    public function getTeams(): Collection
+    {
+        return $this->teams;
+    }
+
+    public function addTeam(Team $team): self
+    {
+        if (!$this->teams->contains($team)) {
+            $this->teams[] = $team;
+            $team->setChampionship($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTeam(Team $team): self
+    {
+        if ($this->teams->contains($team)) {
+            $this->teams->removeElement($team);
+            // set the owning side to null (unless already changed)
+            if ($team->getChampionship() === $this) {
+                $team->setChampionship(null);
             }
         }
 

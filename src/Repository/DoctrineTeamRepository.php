@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Championship;
 use App\Entity\Team;
 use App\Exception\TeamNotFound;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -34,6 +35,16 @@ class DoctrineTeamRepository extends ServiceEntityRepository implements TeamRepo
         }
 
         return $team;
+    }
+
+    public function getAllWithoutChampionship(): array
+    {
+        return $this->findBy(['championship' => null]);
+    }
+
+    public function getAllByChampionship(Championship $championship): array
+    {
+        return $this->findBy(['championship' => $championship]);
     }
 
     public function save(Team $team): void

@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Equipes participantes</h1>
+
+    {{ form_start( editParticipatingTeamForm ) }}
+
+        {{ form_widget( editParticipatingTeamForm.team ) }}
+
+        <button class="btn btn-primary" type="submit">Ajouter</button>
+
+    {{ form_end( editParticipatingTeamForm ) }}
+
+
+    <ul>
+
+        {% if championship.teams | length > 0 %}
+
+            {% for team in championship.teams %}
+
+                <li>
+                    {{ team.name }}
+                </li>
+
+            {% endfor %}
+
+        {% else %}
+
+            <li>Aucune équipe</li>
+
+        {% endif %}
+
+    </ul>
+
+{% endblock %}

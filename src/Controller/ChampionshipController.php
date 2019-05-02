@@ -11,7 +11,11 @@ use App\Form\EditChampionship;
 use App\Form\EditChampionshipSpecificationPoint;
 use App\Form\EditChampionshipSpecificationPointType;
 use App\Form\EditChampionshipType;
+use App\Form\EditParticipatingTeam;
+use App\Form\EditParticipatingTeamType;
 use App\Repository\ChampionshipRepository;
+use App\Repository\TeamRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -140,6 +144,48 @@ class ChampionshipController extends AbstractController
 
         return $this->render('championship/edit-specification-point.html.twig', [
             "editSpecificationPointForm" => $editForm->createView(),
+            "championship" => $championship
+        ]);
+    }
+
+    /**
+     * @Route("/championship/{championshipId}/team", name="edit_participating-team_championship")
+     */
+    public function manageParticipatingTeam(int $championshipId, Request $request, ChampionshipRepository $championshipRepository, TeamRepository $teamRepository): Response
+    {
+        try{
+            $championship = $championshipRepository->getById( $championshipId );
+        }
+        catch(ChampionshipNotFound $exception){
+            return $this->redirectToRoute('list_championship');
+        }
+
+        $participatingTeamForm = $this->createForm(
+            EditParticipatingTeamType::class,
+            new EditParticipatingTeam(null),
+            ['teams' => $teamRepository->getAllWithoutChampionship()]);
+        $participatingTeamForm->handleRequest( $request );
+
+        if( $participatingTeamForm->isSubmitted() && $participatingTeamForm->isValid() ){
+            $editParticipatingTeam = $participatingTeamForm->getData();
+
+
+            /* TODO: try catch */
+            $partipatingTeam = $teamRepository->getById( $editParticipatingTeam->team->getId() );
+
+
+
+
+            $championship->addTeam( $partipatingTeam );
+            $championshipRepository->save( $championship );
+
+            return $this->redirectToRoute('edit_participating-team_championship', [
+                "championshipId" => $championship->getId()
+            ]);
+        }
+
+        return $this->render('championship/edit-participating-team.html.twig', [
+            "editParticipatingTeamForm" => $participatingTeamForm->createView(),
             "championship" => $championship
         ]);
     }
