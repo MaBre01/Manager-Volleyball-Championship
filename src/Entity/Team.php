@@ -75,6 +75,11 @@ class Team
         $this->championship = null;
     }
 
+    public function linkChampionship(Championship $championship): void
+    {
+        $this->championship = $championship;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

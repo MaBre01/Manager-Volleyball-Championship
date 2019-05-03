@@ -132,7 +132,7 @@ class Championship
     {
         if (!$this->teams->contains($team)) {
             $this->teams[] = $team;
-            $team->setChampionship($this);
+            $team->linkChampionship( $this );
         }
 
         return $this;
