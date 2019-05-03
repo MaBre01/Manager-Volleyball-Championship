@@ -50,7 +50,21 @@ class Team
      */
     private $championship;
 
-    public function __construct(int $id, string $name, Club $club)
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    protected $active;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Account", cascade={"persist"})
+     */
+    private $account;
+    /**
+     * @ORM\Embedded(class="TeamManager")
+     */
+    private $teamManager;
+
+    public function __construct(int $id, string $name, Club $club, bool $active, Account $account, TeamManager $teamManager)
     {
         $this->id = $id;
         $this->name = $name;
@@ -58,11 +72,14 @@ class Team
         $this->validated = false;
         $this->club = $club;
         $this->games = new ArrayCollection();
+        $this->account = $account;
+        $this->teamManager = $teamManager;
+        $this->active = $active;
     }
 
     public static function create(EditTeam $editTeam): self
     {
-        return new self($editTeam->id, $editTeam->name, $editTeam->club);
+        return new self($editTeam->id, $editTeam->name, $editTeam->club, $editTeam->active, new Account($editTeam->email, $editTeam->password, $editTeam->roles), new TeamManager($editTeam->managerFirstName, $editTeam->managerLastName, $editTeam->phoneNumber));
     }
 
     public function rename(string $name): void
@@ -95,7 +112,7 @@ class Team
         return $this->point;
     }
 
-    public function getValidated(): ?bool
+    public function isValidated(): ?bool
     {
         return $this->validated;
     }
@@ -139,5 +156,15 @@ class Team
     public function getChampionship(): ?Championship
     {
         return $this->championship;
+    }
+
+    public function getTeamManager(): TeamManager
+    {
+        return $this->teamManager;
+    }
+
+    public function isActive(): bool
+    {
+        return $this->active;
     }
 }
