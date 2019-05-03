@@ -3,33 +3,44 @@
 {% block body %}
     <h1>Equipes participantes</h1>
 
-    {{ form_start( editParticipatingTeamForm ) }}
+    <div class="col-12 col-md-6 mx-auto my-4">
+        {{ form_start( editParticipatingTeamForm ) }}
 
-        {{ form_widget( editParticipatingTeamForm.team ) }}
+            <div class="form-group">
+                {{ form_label( editParticipatingTeamForm.team, "Choix de l'équipe" ) }}
+                {{ form_widget( editParticipatingTeamForm.team ) }}
+            </div>
 
-        <button class="btn btn-primary" type="submit">Ajouter</button>
 
-    {{ form_end( editParticipatingTeamForm ) }}
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-primary" type="submit">Ajouter</button>
+            </div>
 
+        {{ form_end( editParticipatingTeamForm ) }}
+    </div>
 
-    <ul>
+    <div class="col-12 col-md-7 mx-auto">
+        <ul class="list-group m-2">
 
-        {% if championship.teams | length > 0 %}
+            {% if championship.teams | length > 0 %}
 
-            {% for team in championship.teams %}
+                {% for team in championship.teams %}
 
-                <li>
-                    {{ team.name }}
-                </li>
+                    <li class="list-group-item rounded my-2 d-flex justify-content-between">
+                        <span>{{ team.club.name }} : {{ team.name }}</span>
+                        <a href="{{ path('remove_participating_team_championship', {championshipId: championship.id, teamId: team.id} ) }}">Enlever</a>
+                    </li>
 
-            {% endfor %}
+                {% endfor %}
 
-        {% else %}
+            {% else %}
 
-            <li>Aucune équipe</li>
+                <li class="list-group-item rounded my-2">Aucune équipe</li>
 
-        {% endif %}
+            {% endif %}
 
-    </ul>
+        </ul>
+    </div>
+
 
 {% endblock %}

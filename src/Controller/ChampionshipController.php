@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\Entity\Championship;
 use App\Entity\SpecificationPoint;
 use App\Exception\ChampionshipNotFound;
+use App\Exception\TeamNotFound;
 use App\Form\EditChampionship;
 use App\Form\EditChampionshipSpecificationPoint;
 use App\Form\EditChampionshipSpecificationPointType;
@@ -151,7 +152,7 @@ class ChampionshipController extends AbstractController
     /**
      * @Route("/championship/{championshipId}/team", name="edit_participating-team_championship")
      */
-    public function manageParticipatingTeam(int $championshipId, Request $request, ChampionshipRepository $championshipRepository, TeamRepository $teamRepository): Response
+    public function addParticipatingTeam(int $championshipId, Request $request, ChampionshipRepository $championshipRepository, TeamRepository $teamRepository): Response
     {
         try{
             $championship = $championshipRepository->getById( $championshipId );
@@ -175,7 +176,6 @@ class ChampionshipController extends AbstractController
 
 
 
-
             $championship->addTeam( $partipatingTeam );
             $championshipRepository->save( $championship );
 
@@ -187,6 +187,32 @@ class ChampionshipController extends AbstractController
         return $this->render('championship/edit-participating-team.html.twig', [
             "editParticipatingTeamForm" => $participatingTeamForm->createView(),
             "championship" => $championship
+        ]);
+    }
+
+    /**
+     * @Route("/championship/{championshipId}/team/{teamId}/remove", name="remove_participating_team_championship")
+     */
+    public function removeParticipatingTeam(int $championshipId, int $teamId, ChampionshipRepository $championshipRepository, TeamRepository $teamRepository): Response
+    {
+        try{
+            $championship = $championshipRepository->getById( $championshipId );
+            $team = $teamRepository->getById( $teamId );
+        }
+        catch(ChampionshipNotFound $exception){
+            return $this->redirectToRoute("list_championship");
+        }
+        catch(TeamNotFound $exception){
+            return $this->redirectToRoute( "edit_participating-team_championship", [
+                "championshipId" => $championship->getId()
+            ]);
+        }
+
+        $championship->removeTeam( $team );
+        $championshipRepository->save( $championship );
+
+        return $this->redirectToRoute( "edit_participating-team_championship", [
+            "championshipId" => $championship->getId()
         ]);
     }
 }
