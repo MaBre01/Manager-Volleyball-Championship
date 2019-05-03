@@ -142,10 +142,7 @@ class Championship
     {
         if ($this->teams->contains($team)) {
             $this->teams->removeElement($team);
-            // set the owning side to null (unless already changed)
-            if ($team->getChampionship() === $this) {
-                $team->setChampionship(null);
-            }
+            $team->unlinkChampionship();
         }
 
         return $this;

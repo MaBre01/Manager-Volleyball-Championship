@@ -70,6 +70,11 @@ class Team
         $this->name = $name;
     }
 
+    public function unlinkChampionship(): void
+    {
+        $this->championship = null;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -129,12 +134,5 @@ class Team
     public function getChampionship(): ?Championship
     {
         return $this->championship;
-    }
-
-    public function setChampionship(?Championship $championship): self
-    {
-        $this->championship = $championship;
-
-        return $this;
     }
 }
