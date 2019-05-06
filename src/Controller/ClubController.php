@@ -158,4 +158,40 @@ class ClubController extends AbstractController
             'addTeamForm' => $addForm->createView()
         ]);
     }
+
+    /**
+     * @Route("/club/{clubId}/pitch", name="list_pitch_club")
+     */
+    public function listPitchClub(int $clubId, ClubRepository $clubRepository): Response
+    {
+        try{
+            $club = $clubRepository->getById( $clubId );
+        }
+        catch(ClubNotFound $exception){
+            return $this->redirectToRoute("list_club");
+        }
+
+        return $this->render("club/list-pitch.html.twig", [
+            "club" => $club
+        ]);
+    }
+
+    /**
+     * @Route("/club/{clubId}/pitch/add", name="add_pitch_club")
+     */
+    public function addPitchClub(int $clubId, ClubRepository $clubRepository): Response
+    {
+        try{
+            $club = $clubRepository->getById( $clubId );
+        }
+        catch (ClubNotFound $exception){
+            return $this->redirectToRoute("list_club");
+        }
+
+        /** TODO: faire formulaire */
+
+        return $this->render('club/add-pitch.html.twig', [
+            "club" => $club
+        ]);
+    }
 }
