@@ -19,7 +19,7 @@ class Game
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Set", mappedBy="game", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\SetPoint", mappedBy="game", orphanRemoval=true)
      */
     private $sets;
 
@@ -54,14 +54,14 @@ class Game
     }
 
     /**
-     * @return Collection|Set[]
+     * @return Collection|SetPoint[]
      */
     public function getSets(): Collection
     {
         return $this->sets;
     }
 
-    public function addSet(Set $set): self
+    public function addSet(SetPoint $set): self
     {
         if (!$this->sets->contains($set)) {
             $this->sets[] = $set;
@@ -71,7 +71,7 @@ class Game
         return $this;
     }
 
-    public function removeSet(Set $set): self
+    public function removeSet(SetPoint $set): self
     {
         if ($this->sets->contains($set)) {
             $this->sets->removeElement($set);
