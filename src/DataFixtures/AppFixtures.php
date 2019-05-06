@@ -18,6 +18,7 @@ class AppFixtures extends Fixture
         $faker = Faker\Factory::create('fr_FR');
 
         $nbClub = 20;
+        $password = password_hash('a', PASSWORD_BCRYPT);
 
         for ($i = 0; $i < $nbClub; $i++){
             $club = new Club(0, $faker->city);
@@ -32,7 +33,7 @@ class AppFixtures extends Fixture
                 $manager->persist($team);
 
                 $email = $teamManager->getFirstName() . '.' . $teamManager->getLastName() . '@gmail.com';
-                $account = new Account($email, '123456', ['ROLE_TEAM'], $team);
+                $account = new Account($email, $password, ['ROLE_TEAM'], $team);
 
                 $manager->persist($account);
             }
@@ -41,7 +42,7 @@ class AppFixtures extends Fixture
         }
 
         /* Add admin account */
-        $admin = new Account('admin@gmail.com', '123456', ['ROLE_ADMIN'], null);
+        $admin = new Account('admin@gmail.com', $password, ['ROLE_ADMIN'], null);
         $manager->persist( $admin );
 
         $manager->flush();
