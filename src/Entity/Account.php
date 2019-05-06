@@ -40,7 +40,7 @@ class Account implements UserInterface
     protected $roles = [];
 
     /**
-     * @ORM\OneToOne(targetEntity="Team", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="Team", mappedBy="account")
      */
     private $team;
 
