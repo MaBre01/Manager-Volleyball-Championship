@@ -56,7 +56,7 @@ class Team
     protected $active;
 
     /**
-     * @ORM\OneToOne(targetEntity="Account", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="Account", inversedBy="team")
      */
     private $account;
     /**
