@@ -6,6 +6,7 @@ use App\Form\EditTeam;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinColumn;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\DoctrineTeamRepository")
@@ -56,7 +57,7 @@ class Team
     protected $active;
 
     /**
-     * @ORM\OneToOne(targetEntity="Account", inversedBy="team")
+     * @ORM\OneToOne(targetEntity="Account", mappedBy="team")
      */
     private $account;
     /**
@@ -64,7 +65,7 @@ class Team
      */
     private $teamManager;
 
-    public function __construct(int $id, string $name, Club $club, bool $active, Account $account, TeamManager $teamManager)
+    public function __construct(int $id, string $name, Club $club, bool $active, TeamManager $teamManager)
     {
         $this->id = $id;
         $this->name = $name;
@@ -72,7 +73,6 @@ class Team
         $this->validated = false;
         $this->club = $club;
         $this->games = new ArrayCollection();
-        $this->account = $account;
         $this->teamManager = $teamManager;
         $this->active = $active;
     }
@@ -166,5 +166,10 @@ class Team
     public function isActive(): bool
     {
         return $this->active;
+    }
+
+    public function getAccount()
+    {
+        return $this->account;
     }
 }

@@ -22,26 +22,26 @@ class AppFixtures extends Fixture
         for ($i = 0; $i < $nbClub; $i++){
             $club = new Club(0, $faker->city);
 
-            for( $i = 0; $i < random_int(1,4); $i++){
+            for( $j = 0; $j < random_int(1,4); $j++){
 
                 $teamManager = new TeamManager($faker->firstName, $faker->lastName, $faker->phoneNumber);
 
-                $email = $teamManager->getFirstName() . "." . $teamManager->getLastName() . "@gmail.com";
-                $account = new Account($email, "123456", ['ROLE_TEAM']);
+                $teamName = $club->getName() . '--' . $j;
+                $team = new Team(0, $teamName, $club, true, $teamManager);
+
+                $manager->persist($team);
+
+                $email = $teamManager->getFirstName() . '.' . $teamManager->getLastName() . '@gmail.com';
+                $account = new Account($email, '123456', ['ROLE_TEAM'], $team);
 
                 $manager->persist($account);
-
-                $teamName = $club->getName() . "--" . $i;
-                $team = new Team(0, $teamName, $club, true, $account , $teamManager);
-
-                $manager->persist( $team );
             }
 
             $manager->persist( $club );
         }
 
         /* Add admin account */
-        $admin = new Account("admin@gmail.com", "123456", ['ROLE_ADMIN']);
+        $admin = new Account('admin@gmail.com', '123456', ['ROLE_ADMIN'], null);
         $manager->persist( $admin );
 
         $manager->flush();
