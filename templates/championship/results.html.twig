@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>{{ championship.name }}</h1>
+
+    {% include "championship/partial/menu.html.twig" %}
+
+    <div class="d-flex justify-content-center m-4">
+        <form class="form-inline mx-auto" method="get">
+
+            <select class="form-control" name="gameDay" id="">
+                <option value="0">Choix de la journée</option>
+
+                {% for gameDay in championship.gameDays %}
+
+                    <option value="{{ gameDay.id }}" {% if gameDay.id == gameDayActive.id %}selected{% endif %}>Journée {{ gameDay.number }}</option>
+
+                {% endfor %}
+
+            </select>
+
+            <button class="btn btn-primary" type="submit">Afficher</button>
+        </form>
+    </div>
+
+
+    <div class="d-flex justify-content-between">
+        <div>Journée {{ gameDayActive.number }}</div>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Domicile</th>
+                <th>Score</th>
+                <th>Exterieur</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            {% for game in gameDayActive.games %}
+
+                <tr>
+                    <td>{{ game.homeTeam.name }}</td>
+                    <td>0 - 2</td>
+                    <td>{{ game.outsideTeam.name }}</td>
+                </tr>
+
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %}

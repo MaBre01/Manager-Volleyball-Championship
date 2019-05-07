@@ -12,6 +12,7 @@ use App\Form\EditChampionship;
 use App\Form\EditChampionshipSpecificationPoint;
 use App\Form\EditChampionshipSpecificationPointType;
 use App\Form\EditChampionshipType;
+use App\Form\EditGameDayDateType;
 use App\Form\EditParticipatingTeam;
 use App\Form\EditParticipatingTeamType;
 use App\Repository\ChampionshipRepository;
@@ -317,20 +318,22 @@ class ChampionshipController extends AbstractController
     }
 
     /**
-     * @Route("/test", name="test_championships")
+     * @Route("/generate-calendar", name="generate_calendar")
      */
-    public function test(ChampionshipRepository $championshipRepository, GameRepository $gameRepository, GameDayRepository $gameDayRepository): Response
+    public function generateCalendar(ChampionshipRepository $championshipRepository, GameRepository $gameRepository, GameDayRepository $gameDayRepository): Response
     {
-//        $games = $gameRepository->getAll();
-//        $gameDays = $gameDayRepository->getAll();
-//
-//        foreach ( $games as $game ){
-//            $gameRepository->remove( $game );
-//        }
-//
-//        foreach ( $gameDays as $gameDay ){
-//            $gameDayRepository->remove( $gameDay );
-//        }
+        /** TODO: verifier si les championnats sont commencés */
+
+        $games = $gameRepository->getAll();
+        $gameDays = $gameDayRepository->getAll();
+
+        foreach ( $games as $game ){
+            $gameRepository->remove( $game );
+        }
+
+        foreach ( $gameDays as $gameDay ){
+            $gameDayRepository->remove( $gameDay );
+        }
 
         $championships = $championshipRepository->getAll();
 
@@ -346,17 +349,30 @@ class ChampionshipController extends AbstractController
             $gameDaysGenerator->generateGameDays();
         }
 
-        dump( "gameday and gamepair generate");
 
         $gamesDispatcher = new GamesDispatcher( $gamePairs, $championships );
         $gamesDispatcher->dispatchGame();
 
-        dump("dispatch game done");
 
+        $gameDaysMax = [];
         foreach ( $championships as $championship ){
             $championshipRepository->save( $championship );
+
+            if( count( $gameDaysMax ) < count( $championship->getGameDays() )){
+                $gameDaysMax = $championship->getGameDays()->toArray();
+            }
         }
 
-        return new Response("finish");
+        $entity = null;
+        $editGameDayForm = $this->createForm(EditGameDayDateType::class, $entity, [
+            "gameDays" => $gameDaysMax
+        ]);
+
+
+
+        return $this->render("championship/generate-calendar.html.twig", [
+           "editGameDayDateForm" => $editGameDayForm->createView(),
+            "gameDaysMax" => $gameDaysMax
+        ]);
     }
 }

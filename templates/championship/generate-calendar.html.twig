@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Génération du calendrier</h1>
+
+
+    {{ form_start( editGameDayDateForm ) }}
+
+        {{ form_widget(editGameDayDateForm.beginningGameDay ) }}
+
+    {{ form_end( editGameDayDateForm ) }}
+
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>{{ championship.name }}</h1>
+
+    <div class="d-flex flex-column col-6 mx-auto">
+        <a class="btn btn-secondary m-2" href="{{ path('edit_participating-team_championship', {championshipId: championship.id}) }}">Equipes participantes</a>
+        <a class="btn btn-secondary m-2" href="{{ path('edit_specification_point_championship', {championshipId: championship.id}) }}">Changer les règles de points</a>
+
+    </div>
+
+{% endblock %}

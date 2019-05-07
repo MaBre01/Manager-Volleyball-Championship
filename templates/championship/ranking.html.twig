@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>{{ championship.name }}</h1>
+
+    {% include 'championship/partial/menu.html.twig' %}
+
+    <table class="table my-5">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Equipe</th>
+                <th>Points</th>
+                <th>Matchs joués</th>
+                <th>Matchs gagnés</th>
+                <th>Matchs perdus</th>
+                <th>Set +</th>
+                <th>Set -</th>
+                <th>Diff</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            {% if championship.teams | length > 0 %}
+
+                {% for team in championship.teams %}
+
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ team.name }}</td>
+                        <td>{{ team.point }}</td>
+                    </tr>
+
+                {% endfor %}
+
+            {% else %}
+
+                <tr>
+                    <td>Aucune équipe.</td>
+                </tr>
+
+            {% endif %}
+
+        </tbody>
+    </table>
+
+
+{% endblock %}
