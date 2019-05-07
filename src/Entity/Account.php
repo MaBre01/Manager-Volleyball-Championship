@@ -8,9 +8,7 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\JoinColumn;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -41,11 +39,11 @@ class Account implements UserInterface
     protected $roles = [];
 
     /**
-     * @ORM\OneToOne(targetEntity="Team", inversedBy="account")
+     * @ORM\OneToOne(targetEntity="Team", inversedBy="account", cascade={"persist"})
      */
     private $team;
 
-    public function __construct(String $email, String $password, array $roles, $team)
+    public function __construct(String $email, String $password, array $roles, Team $team)
     {
         $this->email = $email;
         $this->password = $password;

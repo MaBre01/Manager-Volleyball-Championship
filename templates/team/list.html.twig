@@ -4,7 +4,6 @@
     <h1>Les équipes</h1>
 
     <ul>
-
         {% if teams | length > 0 %}
 
             {% for team in teams %}
@@ -17,9 +16,8 @@
 
         {% else %}
 
-            <li>Aucune équipe</li>
+            <li>Aucune équipe.</li>
 
         {% endif %}
-
     </ul>
 {% endblock %}

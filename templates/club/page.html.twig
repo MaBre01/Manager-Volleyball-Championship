@@ -1,9 +1,21 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>{{ club.name }}</h1>
+    <h1 class="text-center my-4">{{ club.name }}</h1>
 
     {% include 'club/partial/menu.html.twig' %}
 
+    <div class="col-12 col-md-6 mx-auto">
+        {{ form_start( editClubForm) }}
+
+        <div class="form-group">
+            {{ form_label( editClubForm.name, 'Nom du club' ) }}
+            {{ form_widget( editClubForm.name, {'attr': {'class': 'form-control'}} ) }}
+        </div>
+
+        <button class="btn btn-primary float-right" type="submit"><i class="fas fa-save"></i> Modifier le club</button>
+
+        {{ form_end( editClubForm ) }}
+    </div>
 
 {% endblock %}

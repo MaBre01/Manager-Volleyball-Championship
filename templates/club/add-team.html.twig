@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Ajouter equipe</h1>
+    <h1 class="text-center my-4">Ajouter une équipe</h1>
 
     <div class="col-12 col-md-6 mx-auto">
         {{ form_start( addTeamForm ) }}
@@ -9,6 +9,31 @@
             <div class="form-group">
                 {{ form_label( addTeamForm.name, "Nom de l'équipe") }}
                 {{ form_widget( addTeamForm.name, {'attr': {'class': 'form-control'}} ) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label( addTeamForm.email, "E-mail") }}
+                {{ form_widget( addTeamForm.email, {'attr': {'class': 'form-control'}} ) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label( addTeamForm.managerLastName, "Nom du capitaine") }}
+                {{ form_widget( addTeamForm.managerLastName, {'attr': {'class': 'form-control'}} ) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label( addTeamForm.managerFirstName, "Prénom du capitaine") }}
+                {{ form_widget( addTeamForm.managerFirstName, {'attr': {'class': 'form-control'}} ) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label( addTeamForm.phoneNumber, "Numéro de téléphone") }}
+                {{ form_widget( addTeamForm.phoneNumber, {'attr': {'class': 'form-control'}} ) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label( addTeamForm.active, "Équipe active") }}
+                {{ form_widget( addTeamForm.active, {'attr': {'class': 'form-control'}} ) }}
             </div>
 
             <button class="btn btn-primary" type="submit">Ajouter l'équipe</button>

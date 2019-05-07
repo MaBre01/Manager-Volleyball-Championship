@@ -1,12 +1,14 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>{{ club.name }}</h1>
+    <h1 class="text-center my-4">{{ club.name }}</h1>
 
     {% include 'club/partial/menu.html.twig' %}
 
-    <div class="d-flex justify-content-center m-2">
-        <a class="btn btn-primary" href="{{ path("add_pitch_club", {clubId: club.id}) }}">Ajouter un terrain</a>
+    <h2>Les terrains</h2>
+
+    <div class="d-flex justify-content-end">
+        <a class="btn btn-primary" href="{{ path("add_pitch_club", {clubId: club.id}) }}"><i class="fas fa-plus"></i> Ajouter un terrain</a>
     </div>
 
     <div class="d-flex flew-wrap justify-content-around m-4">
@@ -27,7 +29,7 @@
 
         {% else %}
 
-            <div>Aucun terrain</div>
+            <div>Aucun terrain.</div>
 
         {% endif %}
 

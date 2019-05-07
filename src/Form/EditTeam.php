@@ -19,7 +19,7 @@ class EditTeam
     public $roles = [];
     public $active;
 
-    public function __construct(int $id, ?string $name, Club $club, String $managerFirstName, String $managerLastName, String $phoneNumber, String $email, String $password, array $roles, bool $active)
+    public function __construct(int $id, ?string $name, Club $club, ?string $managerFirstName, ?string $managerLastName, ?string $phoneNumber, ?string $email, ?string $password, ?array $roles, ?bool $active)
     {
         $this->id = $id;
         $this->name = $name;
@@ -30,5 +30,6 @@ class EditTeam
         $this->email = $email;
         $this->password = $password;
         $this->roles = $roles;
+        $this->active = $active;
     }
 }

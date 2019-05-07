@@ -33,15 +33,15 @@ class DoctrineAccountRepository extends ServiceEntityRepository implements Accou
         return $account;
     }
 
-    public function save(Account $club): void
+    public function save(Account $account): void
     {
-        $this->getEntityManager()->persist( $club );
+        $this->getEntityManager()->persist( $account );
         $this->getEntityManager()->flush();
     }
 
-    public function remove(Account $club): void
+    public function remove(Account $account): void
     {
-        $this->getEntityManager()->remove( $club );
+        $this->getEntityManager()->remove( $account );
         $this->getEntityManager()->flush();
     }
 }

@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>{% if editMode %}Modifier{% else %}Ajouter{% endif %} un club</h1>
+    <h1 class="text-center my-4">{% if editMode %}Modifier{% else %}Ajouter{% endif %} un club</h1>
 
     <div class="col-12 col-md-6 mx-auto">
-        {{ form_start( editClubForm) }}
+        {{ form_start( editClubForm ) }}
 
         <div class="form-group">
             {{ form_label( editClubForm.name, 'Nom du club' ) }}

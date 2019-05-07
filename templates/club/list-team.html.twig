@@ -1,18 +1,17 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>{{ club.name }}</h1>
+    <h1 class="text-center my-4">{{ club.name }}</h1>
 
     {% include 'club/partial/menu.html.twig' %}
 
     <h2>Les équipes</h2>
 
     <div class="d-flex justify-content-end">
-        <a class="btn btn-primary" href="{{ path('add_team_club', {clubId: club.id}) }}">Ajouter une équipe</a>
+        <a class="btn btn-primary" href="{{ path('add_team_club', {clubId: club.id}) }}"><i class="fas fa-plus"></i> Ajouter une équipe</a>
     </div>
 
-    <ul>
-
+    <ul class="list-group my-2">
         {% if club.teams | length > 0 %}
 
             {% for team in club.teams %}
@@ -26,10 +25,9 @@
 
         {% else %}
 
-            <li class="list-group-item d-flex justify-content-between m-1 rounded">Aucune équipe dans ce club</li>
+            <li class="list-group-item d-flex justify-content-between m-1 rounded">Aucune équipe dans ce club.</li>
 
         {% endif %}
-
     </ul>
 
 {% endblock %}
