@@ -35,7 +35,7 @@ class Championship
     private $specificationPoint;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\GameDay", mappedBy="championship", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\GameDay", mappedBy="championship", orphanRemoval=true, cascade={"persist"})
      */
     private $gameDays;
 
@@ -67,6 +67,11 @@ class Championship
     public function updateSpecificationPoint(SpecificationPoint $specificationPoint): void
     {
         $this->specificationPoint = $specificationPoint;
+    }
+
+    public function begin(): void
+    {
+        $this->began = true;
     }
 
     public function getId(): ?int
@@ -101,7 +106,6 @@ class Championship
     {
         if (!$this->gameDays->contains($gameDay)) {
             $this->gameDays[] = $gameDay;
-            $gameDay->setChampionship($this);
         }
 
         return $this;

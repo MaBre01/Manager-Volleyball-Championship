@@ -39,7 +39,7 @@ class GameDay
     private $phase;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Game", mappedBy="gameDay", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Game", mappedBy="gameDay", orphanRemoval=true, cascade={"persist"})
      */
     private $games;
 
@@ -49,10 +49,11 @@ class GameDay
      */
     private $championship;
 
-    public function __construct(int $number, bool $phase)
+    public function __construct(int $number, bool $phase, Championship $championship)
     {
         $this->number = $number;
         $this->phase = $phase;
+        $this->championship = $championship;
         $this->games = new ArrayCollection();
     }
 
@@ -93,7 +94,6 @@ class GameDay
     {
         if (!$this->games->contains($game)) {
             $this->games[] = $game;
-            $game->setGameDay($this);
         }
 
         return $this;
