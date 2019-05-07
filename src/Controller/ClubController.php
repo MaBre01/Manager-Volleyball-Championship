@@ -4,6 +4,7 @@
 namespace App\Controller;
 
 
+use App\Entity\Account;
 use App\Entity\Club;
 use App\Entity\Team;
 use App\Exception\ClubNotFound;
@@ -11,6 +12,7 @@ use App\Form\EditClub;
 use App\Form\EditClubType;
 use App\Form\EditTeam;
 use App\Form\EditTeamType;
+use App\Repository\AccountRepository;
 use App\Repository\ClubRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,7 +28,7 @@ class ClubController extends AbstractController
     public function listClub(ClubRepository $clubRepository): Response
     {
         return $this->render('club/list.html.twig', [
-            "clubs" => $clubRepository->getAll()
+            'clubs' => $clubRepository->getAll()
         ]);
     }
 
@@ -67,7 +69,7 @@ class ClubController extends AbstractController
 
             $clubRepository->save( $club );
 
-            return $this->redirectToRoute('page_club', ["clubId" => $club->getId()]);
+            return $this->redirectToRoute('page_club', ['clubId' => $club->getId()]);
         }
 
         return $this->render('club/edit.html.twig', [
@@ -79,16 +81,32 @@ class ClubController extends AbstractController
     /**
      * @Route("/club/{clubId}", name="page_club")
      */
-    public function pageClub(int $clubId, ClubRepository $clubRepository): Response
+    public function pageClub(Request $request, int $clubId, ClubRepository $clubRepository): Response
     {
         try{
             $club = $clubRepository->getById( $clubId );
+            $editForm = $this->createForm(
+                EditClubType::class,
+                new EditClub($club->getId(), $club->getName())
+            );
+
         }
         catch (ClubNotFound $exception){
             return $this->redirectToRoute('list_club');
         }
 
+        $editForm->handleRequest( $request );
+
+        if( $editForm->isSubmitted() && $editForm->isValid() ) {
+            $editClub = $editForm->getData();
+
+            $club->rename($editClub->name);
+        }
+
+        $clubRepository->save( $club );
+
         return $this->render('club/page.html.twig', [
+            'editClubForm' => $editForm->createView(),
             'club' => $club
         ]);
     }
@@ -129,7 +147,7 @@ class ClubController extends AbstractController
     /**
      * @Route("/club/{clubId}/team/new", name="add_team_club")
      */
-    public function addTeam(int $clubId, Request $request, ClubRepository $clubRepository): Response
+    public function addTeam(int $clubId, Request $request, ClubRepository $clubRepository, AccountRepository $accountRepository): Response
     {
         try{
             $club = $clubRepository->getById( $clubId );
@@ -138,19 +156,23 @@ class ClubController extends AbstractController
             return $this->redirectToRoute('list_club');
         }
 
-        $addForm = $this->createForm(EditTeamType::class, new EditTeam(0, null, $club));
+        $addForm = $this->createForm(EditTeamType::class, new EditTeam(0, null, $club, null,
+                                                                null, null, null, null,
+                                                                          null, null));
         $addForm->handleRequest($request);
 
         if( $addForm->isSubmitted() && $addForm->isValid() ){
             $editTeam = $addForm->getData();
 
             $team = Team::create( $editTeam );
+            $account = new Account($editTeam->email, "blabla", ["ROLE_TEAM"], $team);
+            $accountRepository->save($account);
             $club->addTeam( $team );
 
             $clubRepository->save( $club );
 
             return $this->redirectToRoute('list_team_club', [
-                "clubId" => $club->getId()
+                'clubId' => $club->getId()
             ]);
         }
 

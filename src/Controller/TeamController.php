@@ -73,7 +73,14 @@ class TeamController extends AbstractController
 
         $editForm = $this->createForm(
             EditTeamType::class,
-            new EditTeam($team->getId(), $team->getName(), $team->getClub())
+            new EditTeam($team->getId(), $team->getName(), $team->getClub(),
+                        $team->getTeamManager()->getFirstName(),
+                        $team->getTeamManager()->getLastName(),
+                        $team->getTeamManager()->getPhoneNumber(),
+                        $team->getAccount()->getEmail(),
+                        $team->getAccount()->getPassword(),
+                        $team->getAccount()->getRoles(),
+                        $team->isActive())
         );
         $editForm->handleRequest( $request );
 

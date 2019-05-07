@@ -1,35 +1,57 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Les clubs</h1>
+    <h1 class="text-center my-2">Les clubs</h1>
 
     <div class="d-flex justify-content-end">
-        <a class="btn btn-primary" href="{{ path('add_club') }}">Ajouter un club</a>
+        <a class="btn btn-primary" href="{{ path('add_club') }}"><i class="fas fa-plus"></i> Ajouter un club</a>
     </div>
 
+    <span>
+        <ul class="list-group my-2" id="clubs-list">
+            {% if clubs | length > 0 %}
 
-    <ul class="list-group my-4">
-        {% if clubs | length > 0 %}
+                {% for club in clubs %}
 
-            {% for club in clubs %}
+                    <li class="list-group-item d-flex justify-content-between m-1 rounded">
+                        <span>{{ club.name }}</span>
+                        <div>
+                            <a class="btn btn-outline-info" href="{{ path('page_club', {clubId: club.id}) }}">Voir page</a>
+                            <button class="btn btn-outline-danger supprimer" data-Id="{{ club.id }}">Supprimer club</button>
+                        </div>
 
-                <li class="list-group-item d-flex justify-content-between m-1 rounded">
-                    <span>{{ club.name }}</span>
-                    <div>
-                        <a class="btn btn-outline-info" href="{{ path('page_club', {clubId: club.id}) }}">Voir page</a>
-                        <a class="btn btn-outline-danger" href="{{ path('remove_club', {clubId: club.id}) }}">Supprimer club</a>
-                    </div>
+                    </li>
 
-                </li>
+                {% endfor %}
 
-            {% endfor %}
+            {% else %}
 
-        {% else %}
+                <li class="list-group-item d-flex justify-content-between m-1 rounded">Aucun club existant</li>
 
-            <li class="list-group-item d-flex justify-content-between m-1 rounded">Aucun club existant</li>
+            {% endif %}
+        </ul>
+    </span>
 
-        {% endif %}
-    </ul>
-
-
+{% endblock %}
+{% block javascripts %}
+    <script>
+        $(document).ready(function(){
+            let id;
+            $(document).on('click', '.supprimer', function() {
+                id = $(this).attr('data-Id');
+                $('.modal-body').find('p').html("<strong>Attention!</strong><br/>La suppression de ce club supprimera toutes les équipes et terrains qui lui sont reliés." +
+                                                "<br/>Souhaitez-vous vraiment supprimer ce club?");
+                $('#modal').modal('show');
+            });
+            $('#modal').on('show.bs.modal', e => {
+                $(this).find('.btn-success').on('click', function(){
+                    $.ajax({
+                        url: '/club/'+id+'/remove'
+                    });
+                    $('#modal').modal('hide');
+                    $("#clubs-list").parent().load(document.URL + " #clubs-list");
+                });
+            });
+        })
+    </script>
 {% endblock %}

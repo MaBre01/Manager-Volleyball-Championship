@@ -6,7 +6,6 @@ use App\Form\EditTeam;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\JoinColumn;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\DoctrineTeamRepository")
@@ -57,9 +56,10 @@ class Team
     protected $active;
 
     /**
-     * @ORM\OneToOne(targetEntity="Account", mappedBy="team")
+     * @ORM\OneToOne(targetEntity="Account", mappedBy="team", orphanRemoval=true)
      */
     private $account;
+
     /**
      * @ORM\Embedded(class="TeamManager")
      */
@@ -79,7 +79,7 @@ class Team
 
     public static function create(EditTeam $editTeam): self
     {
-        return new self($editTeam->id, $editTeam->name, $editTeam->club, $editTeam->active, new Account($editTeam->email, $editTeam->password, $editTeam->roles), new TeamManager($editTeam->managerFirstName, $editTeam->managerLastName, $editTeam->phoneNumber));
+        return new self($editTeam->id, $editTeam->name, $editTeam->club, $editTeam->active, new TeamManager($editTeam->managerFirstName, $editTeam->managerLastName, $editTeam->phoneNumber));
     }
 
     public function rename(string $name): void
@@ -168,7 +168,7 @@ class Team
         return $this->active;
     }
 
-    public function getAccount()
+    public function getAccount(): ?Account
     {
         return $this->account;
     }
