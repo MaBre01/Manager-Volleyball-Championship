@@ -41,10 +41,11 @@ class Game
      */
     private $outsideTeam;
 
-    public function __construct(Team $homeTeam, Team $outsideTeam)
+    public function __construct(Team $homeTeam, Team $outsideTeam, GameDay $gameDay)
     {
         $this->homeTeam = $homeTeam;
         $this->outsideTeam = $outsideTeam;
+        $this->gameDay = $gameDay;
         $this->sets = new ArrayCollection();
     }
 
