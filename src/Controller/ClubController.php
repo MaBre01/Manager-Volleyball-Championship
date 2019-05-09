@@ -101,9 +101,9 @@ class ClubController extends AbstractController
             $editClub = $editForm->getData();
 
             $club->rename($editClub->name);
-        }
 
-        $clubRepository->save( $club );
+            $clubRepository->save( $club );
+        }
 
         return $this->render('club/page.html.twig', [
             'editClubForm' => $editForm->createView(),
@@ -147,7 +147,7 @@ class ClubController extends AbstractController
     /**
      * @Route("/club/{clubId}/team/new", name="add_team_club")
      */
-    public function addTeam(int $clubId, Request $request, ClubRepository $clubRepository, AccountRepository $accountRepository): Response
+    public function addTeam(int $clubId, Request $request, ClubRepository $clubRepository, AccountRepository $accountRepository, \Swift_Mailer $mailer): Response
     {
         try{
             $club = $clubRepository->getById( $clubId );
@@ -165,7 +165,20 @@ class ClubController extends AbstractController
             $editTeam = $addForm->getData();
 
             $team = Team::create( $editTeam );
-            $account = new Account($editTeam->email, "blabla", ["ROLE_TEAM"], $team);
+
+            $tmpPassword = random_int(10000,999999);
+
+            $message = (new \Swift_Message('Changement de mot de passe'))
+                ->setFrom('volleyballchampionshipmanager@gmail.com', 'Volleyball CM')
+                ->setTo($editTeam->email)
+                ->setBody($tmpPassword)
+            ;
+
+            $mailer->send($message);
+
+            $password = password_hash($tmpPassword, PASSWORD_BCRYPT);
+
+            $account = new Account($editTeam->email, $password, ["ROLE_TEAM"], $team);
             $accountRepository->save($account);
             $club->addTeam( $team );
 

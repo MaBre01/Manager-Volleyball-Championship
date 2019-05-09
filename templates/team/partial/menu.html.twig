@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-center">
     <div class="btn-group" role="group" aria-label="Basic example">
-        <a class="btn btn-light" href="{{ path('page_club', {clubId: team.club.id}) }}"><i class="fas fa-arrow-left"></i> Club</a>
-        <a class="btn btn-light {% if app.request.attributes.get('_route') == 'page_team' %}active{% endif %}" href="{{ path('page_team', {teamId: team.id}) }}">Informations</a>
+        <a class="btn btn-outline-secondary" href="{{ path('page_club', {clubId: team.club.id}) }}"><i class="fas fa-arrow-left"></i> Club</a>
+        <a class="btn btn-outline-secondary {% if app.request.attributes.get('_route') == 'page_team' %}active{% endif %}" href="{{ path('page_team', {teamId: team.id}) }}">Informations</a>
     </div>
 </div>

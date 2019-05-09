@@ -82,6 +82,13 @@ class Team
         return new self($editTeam->id, $editTeam->name, $editTeam->club, $editTeam->active, new TeamManager($editTeam->managerFirstName, $editTeam->managerLastName, $editTeam->phoneNumber));
     }
 
+    public function edit(EditTeam $editTeam): void
+    {
+        $this->name = $editTeam->name;
+        $this->active = $editTeam->active;
+        $this->teamManager->edit($editTeam);
+    }
+
     public function rename(string $name): void
     {
         $this->name = $name;

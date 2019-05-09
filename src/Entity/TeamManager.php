@@ -3,6 +3,7 @@
 
 namespace App\Entity;
 
+use App\Form\EditTeam;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -45,6 +46,13 @@ class TeamManager
     public function getPhoneNumber(): String
     {
         return $this->phoneNumber;
+    }
+
+    public function edit(EditTeam $editTeam): void
+    {
+        $this->firstName = $editTeam->managerFirstName;
+        $this->lastName = $editTeam->managerLastName;
+        $this->phoneNumber = $editTeam->phoneNumber;
     }
 
 }

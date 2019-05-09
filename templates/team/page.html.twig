@@ -5,6 +5,44 @@
 
     {% include 'team/partial/menu.html.twig' %}
 
-    <a href="{{ path('edit_team', {teamId: team.id}) }}">Modifier</a>
+    <div class="col-12 col-md-6 mx-auto">
+        {{ form_start( editTeamForm ) }}
+
+        <div class="form-group">
+            {{ form_label( editTeamForm, "Nom de l'équipe" ) }}
+            {{ form_widget( editTeamForm.name ) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label( editTeamForm.email, "E-mail") }}
+            {{ form_widget( editTeamForm.email, {'attr': {'class': 'form-control'}} ) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label( editTeamForm.managerLastName, "Nom du capitaine") }}
+            {{ form_widget( editTeamForm.managerLastName, {'attr': {'class': 'form-control'}} ) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label( editTeamForm.managerFirstName, "Prénom du capitaine") }}
+            {{ form_widget( editTeamForm.managerFirstName, {'attr': {'class': 'form-control'}} ) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label( editTeamForm.phoneNumber, "Numéro de téléphone") }}
+            {{ form_widget( editTeamForm.phoneNumber, {'attr': {'class': 'form-control'}} ) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label( editTeamForm.active, "Équipe active") }}
+            {{ form_widget( editTeamForm.active, {'attr': {'class': 'form-control'}} ) }}
+        </div>
+
+        <div class="d-flex justify-content-end">
+            <button class="btn btn-primary" type="submit">Modifier l'équipe</button>
+        </div>
+
+        {{ form_end( editTeamForm ) }}
+    </div>
 
 {% endblock %}

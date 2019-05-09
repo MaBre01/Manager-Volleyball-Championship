@@ -18,7 +18,7 @@ class TeamController extends AbstractController
     /**
      * @Route("/team/{teamId}", name="page_team")
      */
-    public function pageTeam(int $teamId, TeamRepository $teamRepository): Response
+    public function pageTeam(Request $request, int $teamId, TeamRepository $teamRepository): Response
     {
         try{
             $team = $teamRepository->getById( $teamId );
@@ -27,7 +27,33 @@ class TeamController extends AbstractController
             return $this->redirectToRoute('list_team');
         }
 
+        $editForm = $this->createForm(
+            EditTeamType::class,
+            new EditTeam($team->getId(), $team->getName(), $team->getClub(),
+                $team->getTeamManager()->getFirstName(),
+                $team->getTeamManager()->getLastName(),
+                $team->getTeamManager()->getPhoneNumber(),
+                $team->getAccount()->getEmail(),
+                $team->getAccount()->getPassword(),
+                $team->getAccount()->getRoles(),
+                $team->isActive())
+        );
+        $editForm->handleRequest( $request );
+
+        if( $editForm->isSubmitted() && $editForm->isValid() ){
+            $editTeam = $editForm->getData();
+
+            $team->edit( $editTeam );
+
+            $teamRepository->save( $team );
+
+            return $this->redirectToRoute('list_team_club', [
+                "clubId" => $team->getClub()->getId()
+            ]);
+        }
+
         return $this->render('team/page.html.twig', [
+            'editTeamForm' => $editForm->createView(),
             'team' => $team
         ]);
     }
@@ -87,7 +113,7 @@ class TeamController extends AbstractController
         if( $editForm->isSubmitted() && $editForm->isValid() ){
             $editTeam = $editForm->getData();
 
-            $team->rename( $editTeam->name );
+            $team->edit( $editTeam );
 
             $teamRepository->save( $team );
 

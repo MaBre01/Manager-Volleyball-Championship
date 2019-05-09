@@ -19,7 +19,6 @@
                             <a class="btn btn-outline-info" href="{{ path('page_club', {clubId: club.id}) }}">Voir page</a>
                             <button class="btn btn-outline-danger supprimer" data-Id="{{ club.id }}">Supprimer club</button>
                         </div>
-
                     </li>
 
                 {% endfor %}
@@ -40,7 +39,7 @@
             $(document).on('click', '.supprimer', function() {
                 id = $(this).attr('data-Id');
                 $('.modal-body').find('p').html("<strong>Attention!</strong><br/>La suppression de ce club supprimera toutes les équipes et terrains qui lui sont reliés." +
-                                                "<br/>Souhaitez-vous vraiment supprimer ce club?");
+                                                "<br/>Souhaitez-vous continuer?");
                 $('#modal').modal('show');
             });
             $('#modal').on('show.bs.modal', e => {

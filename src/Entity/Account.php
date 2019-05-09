@@ -43,7 +43,7 @@ class Account implements UserInterface
      */
     private $team;
 
-    public function __construct(String $email, String $password, array $roles, Team $team)
+    public function __construct(String $email, String $password, array $roles, ?Team $team)
     {
         $this->email = $email;
         $this->password = $password;

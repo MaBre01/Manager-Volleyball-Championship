@@ -11,23 +11,50 @@
         <a class="btn btn-primary" href="{{ path('add_team_club', {clubId: club.id}) }}"><i class="fas fa-plus"></i> Ajouter une équipe</a>
     </div>
 
-    <ul class="list-group my-2">
-        {% if club.teams | length > 0 %}
+    <span>
+        <ul class="list-group my-2" id="teams-list">
+            {% if club.teams | length > 0 %}
 
-            {% for team in club.teams %}
+                {% for team in club.teams %}
 
-                <li class="list-group-item d-flex justify-content-between m-1 rounded">
-                    {{ team.name }}
-                    <a class="btn btn-outline-info" href="{{ path('page_team', {'teamId': team.id}) }}">Voir la page</a>
-                </li>
+                    <li class="list-group-item d-flex justify-content-between m-1 rounded">
+                        {{ team.name }}
+                        <div>
+                            <a class="btn btn-outline-info" href="{{ path('page_team', {'teamId': team.id}) }}">Voir la page</a>
+                            <button class="btn btn-outline-danger supprimer" data-Id="{{ team.id }}">Supprimer l'équipe</button>
+                        </div>
+                    </li>
 
-            {% endfor %}
+                {% endfor %}
 
-        {% else %}
+            {% else %}
 
-            <li class="list-group-item d-flex justify-content-between m-1 rounded">Aucune équipe dans ce club.</li>
+                <li class="list-group-item d-flex justify-content-between m-1 rounded">Aucune équipe n'existe dans ce club.</li>
 
-        {% endif %}
-    </ul>
+            {% endif %}
+        </ul>
+    </span>
 
+{% endblock %}
+{% block javascripts %}
+    <script>
+        $(document).ready(function(){
+            let id;
+            $(document).on('click', '.supprimer', function() {
+                id = $(this).attr('data-Id');
+                $('.modal-body').find('p').html("<strong>Attention!</strong><br/>La suppression de cette équipe supprimera le compte qui lui est rattaché." +
+                    "<br/>Souhaitez-vous continuer?");
+                $('#modal').modal('show');
+            });
+            $('#modal').on('show.bs.modal', e => {
+                $(this).find('.btn-success').on('click', function(){
+                    $.ajax({
+                        url: '/team/'+id+'/remove'
+                    });
+                    $('#modal').modal('hide');
+                    $("#teams-list").parent().load(document.URL + " #teams-list");
+                });
+            });
+        })
+    </script>
 {% endblock %}
