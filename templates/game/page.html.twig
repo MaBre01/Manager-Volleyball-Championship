@@ -1,0 +1,87 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>{{ game.homeTeam.name }} vs {{ game.outsideTeam.name }}</h1>
+
+    <div class="d-flex justify-content-center">
+        <span>{{ game.homeTeamScore }}</span>
+        -
+        <span>{{ game.outsideTeamScore }}</span>
+    </div>
+
+    {% if game.isFinish %}
+
+    {% else %}
+
+        <a href="{{ path("finish_game", {championshipId: championship.id, gameDayId: game.gameDay.id, gameId: game.id}) }}">Finir le match</a>
+
+    {% endif %}
+
+    <div>Sets</div>
+
+    <a href="{{ path("add_set", {championshipId: championship.id, gameDayId: game.gameDay.id, gameId: game.id}) }}">Ajouter un set</a>
+    <a href="{{ path("forfeit_game", {championshipId: championship.id, gameDayId: game.gameDay.id, gameId: game.id}) }}">Déclarer un forfait</a>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th></th>
+                <th class="text-center">{{ game.homeTeam.name }}</th>
+                <th class="text-center">{{ game.outsideTeam.name }}</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            {% if game.isForfeit %}
+
+                <tr>
+                    <td></td>
+
+                    {% if game.homeTeamWinner %}
+
+                        <td></td>
+                        <td class="text-center">Forfait</td>
+
+                    {% else %}
+
+                        <td class="text-center">Forfait</td>
+                        <td></td>
+
+                    {% endif %}
+
+                    <td></td>
+                </tr>
+
+            {% else %}
+
+                {% if game.sets | length > 0 %}
+
+                    {% for set in game.sets %}
+
+                        <tr>
+                            <td>Set {{ loop.index }}</td>
+                            <td class="text-center">{{ set.homeTeamPoint }}</td>
+                            <td class="text-center">{{ set.outsideTeamPoint  }}</td>
+                            <td>
+                                <a href="{{ path("edit_set", {championshipId: championship.id, gameDayId: game.gameDay.id, gameId: game.id, setId: set.id}) }}">Modifier</a>
+                                <a href="{{ path("remove_set", {championshipId: championship.id, gameDayId: game.gameDay.id, gameId: game.id, setId: set.id}) }}">Supprimer</a>
+                            </td>
+                        </tr>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <tr>
+                        <td class="text-center">Aucun set n'a été joué</td>
+                    </tr>
+
+                {% endif %}
+
+            {% endif %}
+
+        </tbody>
+    </table>
+
+{% endblock %}

@@ -13,7 +13,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @method SetPoint[]    findAll()
  * @method SetPoint[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class DoctrineSetRepository extends ServiceEntityRepository
+class DoctrineSetRepository extends ServiceEntityRepository implements SetRepository
 {
     public function __construct(RegistryInterface $registry)
     {

@@ -29,6 +29,12 @@
                         <td>{{ loop.index }}</td>
                         <td>{{ team.name }}</td>
                         <td>{{ team.point }}</td>
+                        <td>{{ team.gamePlayed }}</td>
+                        <td>{{ team.gameWon }}</td>
+                        <td>{{ team.gameLose }}</td>
+                        <td>{{ team.setWon }}</td>
+                        <td>{{ team.setLose }}</td>
+                        <td>{{ team.setWon - team.setLose }}</td>
                     </tr>
 
                 {% endfor %}

@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h1>{% if editMode %}Modifier{% else %}Ajouter{% endif %} un set</h1>
+
+    {{ form_start(editSetForm) }}
+
+        <div class="form-group">
+            {{ form_label(editSetForm.homeTeamPoint, "Point de " ~ game.homeTeam.name) }}
+            {{ form_widget( editSetForm.homeTeamPoint ) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(editSetForm.outsideTeamPoint, "Point de " ~ game.outsideTeam.name) }}
+            {{ form_widget( editSetForm.outsideTeamPoint ) }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">{% if editMode %}Modifier{% else %}Ajouter{% endif %}</button>
+
+    {{ form_end(editSetForm) }}
+
+{% endblock %}

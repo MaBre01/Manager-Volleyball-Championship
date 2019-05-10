@@ -43,7 +43,12 @@ class Team
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Game", mappedBy="homeTeam")
      */
-    private $games;
+    private $homeGames;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Game", mappedBy="outsideTeam")
+     */
+    private $outsideGames;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Championship", inversedBy="teams")
@@ -89,6 +94,88 @@ class Team
         $this->teamManager->edit($editTeam);
     }
 
+    public function getGamePlayed(): int
+    {
+        $gamePlayed = 0;
+
+        foreach ( $this->getGames() as $game ){
+            if( $game->isFinish() ){
+                $gamePlayed++;
+            }
+        }
+
+        return $gamePlayed;
+    }
+
+    public function getGameWon(): int
+    {
+        $gameWon = 0;
+
+        foreach ($this->getGames() as $game){
+            if( $game->isFinish() ){
+                if( $game->isTeamWinner( $this ) ){
+                    $gameWon++;
+                }
+            }
+        }
+
+        return $gameWon;
+    }
+
+    public function getSetWon(): int
+    {
+        $setWon = 0;
+
+        foreach ($this->getGames() as $game){
+            if( $game->isFinish() ){
+                foreach ( $game->getSets() as $set ){
+                    if( $set->isTeamWinner( $this ) ){
+                        $setWon++;
+                    };
+                }
+            }
+        }
+
+        return $setWon;
+    }
+
+    public function getSetLose(): int
+    {
+        $setLose = 0;
+
+        foreach ($this->getGames() as $game){
+            if( $game->isFinish() ){
+                foreach ( $game->getSets() as $set ){
+                    if( ! $set->isTeamWinner( $this ) ){
+                        $setLose++;
+                    };
+                }
+            }
+        }
+
+        return $setLose;
+    }
+
+    public function getGameLose(): int
+    {
+        $gameLose = 0;
+
+        foreach ($this->getGames() as $game){
+            if( $game->isFinish() ){
+                if( ! $game->isTeamWinner($this) ){
+                    $gameLose++;
+                }
+            }
+        }
+
+        return $gameLose;
+    }
+
+    public function addPoint(int $point): void
+    {
+        $this->point += $point;
+    }
+
     public function rename(string $name): void
     {
         $this->name = $name;
@@ -129,35 +216,11 @@ class Team
         return $this->club;
     }
 
-    /**
-     * @return Collection|Game[]
-     */
     public function getGames(): Collection
     {
-        return $this->games;
-    }
-
-    public function addGame(Game $game): self
-    {
-        if (!$this->games->contains($game)) {
-            $this->games[] = $game;
-            $game->setHomeTeam($this);
-        }
-
-        return $this;
-    }
-
-    public function removeGame(Game $game): self
-    {
-        if ($this->games->contains($game)) {
-            $this->games->removeElement($game);
-            // set the owning side to null (unless already changed)
-            if ($game->getHomeTeam() === $this) {
-                $game->setHomeTeam(null);
-            }
-        }
-
-        return $this;
+        return new ArrayCollection(
+            array_merge($this->homeGames->toArray(), $this->outsideGames->toArray())
+        );
     }
 
     public function getChampionship(): ?Championship

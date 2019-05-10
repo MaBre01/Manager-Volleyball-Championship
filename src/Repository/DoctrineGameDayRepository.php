@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Championship;
 use App\Entity\GameDay;
 use App\Exception\GameDayNotFound;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -31,6 +32,21 @@ class DoctrineGameDayRepository extends ServiceEntityRepository implements GameD
 
         if( ! $gameDay ){
             throw new GameDayNotFound( $gameDayId );
+        }
+
+        return $gameDay;
+    }
+
+    public function getGameDayByNumber(Championship $championship, int $number): GameDay
+    {
+        $gameDay = $this->findOneBy([
+            "championship" => $championship,
+            "number" => $number
+        ]);
+
+
+        if( ! $gameDay ){
+            throw new GameDayNotFound( 0 );
         }
 
         return $gameDay;
