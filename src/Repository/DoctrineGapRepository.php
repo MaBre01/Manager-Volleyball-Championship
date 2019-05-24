@@ -13,7 +13,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @method Gap[]    findAll()
  * @method Gap[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class DoctrineGapRepository extends ServiceEntityRepository
+class DoctrineGapRepository extends ServiceEntityRepository implements GapRepository
 {
     public function __construct(RegistryInterface $registry)
     {

@@ -25,7 +25,7 @@ class Club
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Pitch", mappedBy="club", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Pitch", mappedBy="club", orphanRemoval=true, cascade={"persist"})
      */
     private $pitches;
 

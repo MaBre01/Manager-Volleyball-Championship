@@ -4,6 +4,7 @@
 namespace App\Controller;
 
 
+use App\Entity\Pitch;
 use App\Exception\TeamNotFound;
 use App\Form\EditTeam;
 use App\Form\EditTeamType;
@@ -38,14 +39,22 @@ class TeamController extends AbstractController
                 $team->getAccount()->getRoles(),
                 $team->isActive())
         );
-        $editForm->handleRequest( $request );
+        $editForm->handleRequest($request);
 
         if( $editForm->isSubmitted() && $editForm->isValid() ){
             $editTeam = $editForm->getData();
 
-            $team->edit( $editTeam );
+            $pitches = [];
+            $pitchesId = $request->get('pitches');
+            if ($pitchesId != null) {
+                foreach ($pitchesId as $pitchId) {
+                    $pitch = $this->getDoctrine()->getRepository(Pitch::class)->find($pitchId);
+                    $pitches[] = $pitch;
+                }
+            }
+            $team->edit($editTeam, $pitches);
 
-            $teamRepository->save( $team );
+            $teamRepository->save($team);
 
             return $this->redirectToRoute('list_team_club', [
                 "clubId" => $team->getClub()->getId()
@@ -54,6 +63,7 @@ class TeamController extends AbstractController
 
         return $this->render('team/page.html.twig', [
             'editTeamForm' => $editForm->createView(),
+            'club' => $team->getClub(),
             'team' => $team
         ]);
     }
@@ -108,14 +118,14 @@ class TeamController extends AbstractController
                         $team->getAccount()->getRoles(),
                         $team->isActive())
         );
-        $editForm->handleRequest( $request );
+        $editForm->handleRequest($request);
 
-        if( $editForm->isSubmitted() && $editForm->isValid() ){
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
             $editTeam = $editForm->getData();
 
-            $team->edit( $editTeam );
+            $team->edit($editTeam);
 
-            $teamRepository->save( $team );
+            $teamRepository->save($team);
 
             return $this->redirectToRoute('page_team', [
                 "teamId" => $team->getId()

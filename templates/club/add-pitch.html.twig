@@ -1,8 +1,54 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1 class="text-center my-4">{{ club.name }}</h1>
+    <h1 class="text-center my-4">Ajouter un terrain</h1>
 
-    <span>Page en cours de développement</span>
+    <div class="col-12 col-md-6 mx-auto">
+        {{ form_start( addPitchForm ) }}
+
+        <div class="form-group">
+            {{ form_label( addPitchForm.address, "Adresse") }}
+            {{ form_widget( addPitchForm.address, {'attr': {'class': 'form-control'}} ) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label( addPitchForm.monday, "Lundi") }}
+            {{ form_widget( addPitchForm.monday, {'attr': {'class': 'form-check-input'}} ) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label( addPitchForm.tuesday, "Mardi") }}
+            {{ form_widget( addPitchForm.tuesday, {'attr': {'class': 'form-check-input'}} ) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label( addPitchForm.wednesday, "Mercredi") }}
+            {{ form_widget( addPitchForm.wednesday, {'attr': {'class': 'form-check-input'}} ) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label( addPitchForm.thursday, "Jeudi") }}
+            {{ form_widget( addPitchForm.thursday, {'attr': {'class': 'form-check-input'}} ) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label( addPitchForm.friday, "Vendredi") }}
+            {{ form_widget( addPitchForm.friday, {'attr': {'class': 'form-check-input'}} ) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label( addPitchForm.saturday, "Samedi") }}
+            {{ form_widget( addPitchForm.saturday, {'attr': {'class': 'form-check-input'}} ) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label( addPitchForm.sunday, "Dimanche") }}
+            {{ form_widget( addPitchForm.sunday, {'attr': {'class': 'form-check-input'}} ) }}
+        </div>
+
+        <button class="btn btn-primary" type="submit">Ajouter l'équipe</button>
+
+        {{ form_end( addPitchForm ) }}
+    </div>
 
 {% endblock %}

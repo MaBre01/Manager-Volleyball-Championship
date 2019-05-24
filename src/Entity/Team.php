@@ -61,11 +61,16 @@ class Team
     private $account;
 
     /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Pitch", inversedBy="teams", cascade={"persist"})
+     */
+    private $pitches;
+
+    /**
      * @ORM\Embedded(class="TeamManager")
      */
     private $teamManager;
 
-    public function __construct(int $id, string $name, Club $club, bool $active, TeamManager $teamManager)
+    public function __construct(int $id, string $name, Club $club, bool $active, array $pitches, TeamManager $teamManager)
     {
         $this->id = $id;
         $this->name = $name;
@@ -74,18 +79,20 @@ class Team
         $this->club = $club;
         $this->games = new ArrayCollection();
         $this->teamManager = $teamManager;
+        $this->pitches = $pitches;
         $this->active = $active;
     }
 
-    public static function create(EditTeam $editTeam): self
+    public static function create(EditTeam $editTeam, array $pitches): self
     {
-        return new self($editTeam->id, $editTeam->name, $editTeam->club, $editTeam->active, new TeamManager($editTeam->managerFirstName, $editTeam->managerLastName, $editTeam->phoneNumber));
+        return new self($editTeam->id, $editTeam->name, $editTeam->club, $editTeam->active, $pitches, new TeamManager($editTeam->managerFirstName, $editTeam->managerLastName, $editTeam->phoneNumber));
     }
 
-    public function edit(EditTeam $editTeam): void
+    public function edit(EditTeam $editTeam, array $pitches): void
     {
         $this->name = $editTeam->name;
         $this->active = $editTeam->active;
+        $this->pitches = $pitches;
         $this->teamManager->edit($editTeam);
     }
 
@@ -178,5 +185,10 @@ class Team
     public function getAccount(): ?Account
     {
         return $this->account;
+    }
+
+    public function getPitches()
+    {
+        return $this->pitches;
     }
 }

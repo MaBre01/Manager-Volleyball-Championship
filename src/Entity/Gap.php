@@ -21,6 +21,11 @@ class Gap
      */
     private $day;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Pitch", mappedBy="gaps")
+     */
+    private $pitches;
+
     public function __construct(string $day)
     {
         $this->day = $day;
@@ -34,5 +39,10 @@ class Gap
     public function getDay(): string
     {
         return $this->day;
+    }
+
+    public function getPitches()
+    {
+        return $this->pitches;
     }
 }

@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1 class="text-center my-4">{{ pitch.club.name }}</h1>
+
+    {% include 'pitch/partial/menu.html.twig' %}
+
+    <div class="col-12 col-md-6 mx-auto">
+        {{ form_start( editPitchForm ) }}
+
+        <div class="form-group">
+            {{ form_label( editPitchForm.address, "Adresse") }}
+            {{ form_widget( editPitchForm.address, {'attr': {'class': 'form-control'}} ) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label( editPitchForm.monday, "Lundi") }}
+            {{ form_widget( editPitchForm.monday, {'attr': {'class': 'form-check-input'}} ) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label( editPitchForm.tuesday, "Mardi") }}
+            {{ form_widget( editPitchForm.tuesday, {'attr': {'class': 'form-check-input'}} ) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label( editPitchForm.wednesday, "Mercredi") }}
+            {{ form_widget( editPitchForm.wednesday, {'attr': {'class': 'form-check-input'}} ) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label( editPitchForm.thursday, "Jeudi") }}
+            {{ form_widget( editPitchForm.thursday, {'attr': {'class': 'form-check-input'}} ) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label( editPitchForm.friday, "Vendredi") }}
+            {{ form_widget( editPitchForm.friday, {'attr': {'class': 'form-check-input'}} ) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label( editPitchForm.saturday, "Samedi") }}
+            {{ form_widget( editPitchForm.saturday, {'attr': {'class': 'form-check-input'}} ) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label( editPitchForm.sunday, "Dimanche") }}
+            {{ form_widget( editPitchForm.sunday, {'attr': {'class': 'form-check-input'}} ) }}
+        </div>
+
+        <button class="btn btn-primary" type="submit">Modifier le terrain</button>
+
+        {{ form_end( editPitchForm ) }}
+    </div>
+
+{% endblock %}

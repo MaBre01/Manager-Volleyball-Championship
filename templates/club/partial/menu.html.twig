@@ -1,5 +1,5 @@
 <div class="d-flex justify-content-center">
-    <div class="btn-group" role="group" aria-label="Basic example">
+    <div class="btn-group mb-4" role="group" aria-label="Basic example">
         <a class="btn btn-outline-secondary {% if app.request.attributes.get('_route') == 'page_club' %}active{% endif %}" href="{{ path('page_club', {clubId: club.id}) }}">Informations</a>
         <a class="btn btn-outline-secondary {% if app.request.attributes.get('_route') == 'list_team_club' %}active{% endif %}" href="{{ path('list_team_club', {clubId: club.id}) }}">Equipes</a>
         <a class="btn btn-outline-secondary {% if app.request.attributes.get('_route') == 'list_pitch_club' %}active{% endif %}" href="{{ path('list_pitch_club', {clubId: club.id}) }}">Terrains</a>

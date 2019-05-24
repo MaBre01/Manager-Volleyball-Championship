@@ -13,7 +13,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @method Pitch[]    findAll()
  * @method Pitch[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class DoctrinePitchRepository extends ServiceEntityRepository
+class DoctrinePitchRepository extends ServiceEntityRepository implements PitchRepository
 {
     public function __construct(RegistryInterface $registry)
     {

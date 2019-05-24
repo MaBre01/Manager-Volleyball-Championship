@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
+use App\Form\EditPitch;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -24,7 +24,7 @@ class Pitch
     private $address;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Gap")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Gap", inversedBy="pitches", cascade={"persist"})
      */
     private $gaps;
 
@@ -34,10 +34,73 @@ class Pitch
      */
     private $club;
 
-    public function __construct(string $address)
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Team", mappedBy="pitches")
+     */
+    private $teams;
+
+    public function __construct(string $address, array $gaps)
     {
         $this->address = $address;
-        $this->gaps = new ArrayCollection();
+        $this->gaps = $gaps;
+    }
+
+    public static function create(EditPitch $editPitch, array $gaps): self
+    {
+        $gapsChecked = [];
+        foreach ($gaps as $gap) {
+            if ($editPitch->monday && $gap->getId() === 1) {
+                $gapsChecked[] = $gap;
+            }
+            if ($editPitch->tuesday && $gap->getId() === 2) {
+                $gapsChecked[] = $gap;
+            }
+            if ($editPitch->wednesday && $gap->getId() === 3) {
+                $gapsChecked[] = $gap;
+            }
+            if ($editPitch->thursday && $gap->getId() === 4) {
+                $gapsChecked[] = $gap;
+            }
+            if ($editPitch->friday && $gap->getId() === 5) {
+                $gapsChecked[] = $gap;
+            }
+            if ($editPitch->saturday && $gap->getId() === 6) {
+                $gapsChecked[] = $gap;
+            }
+            if ($editPitch->sunday && $gap->getId() === 7) {
+                $gapsChecked[] = $gap;
+            }
+        }
+        return new self($editPitch->address, $gapsChecked);
+    }
+
+    public function edit(EditPitch $editPitch, array $gaps) {
+        $gapsChecked = [];
+        foreach ($gaps as $gap) {
+            if ($editPitch->monday && $gap->getId() === 1) {
+                $gapsChecked[] = $gap;
+            }
+            if ($editPitch->tuesday && $gap->getId() === 2) {
+                $gapsChecked[] = $gap;
+            }
+            if ($editPitch->wednesday && $gap->getId() === 3) {
+                $gapsChecked[] = $gap;
+            }
+            if ($editPitch->thursday && $gap->getId() === 4) {
+                $gapsChecked[] = $gap;
+            }
+            if ($editPitch->friday && $gap->getId() === 5) {
+                $gapsChecked[] = $gap;
+            }
+            if ($editPitch->saturday && $gap->getId() === 6) {
+                $gapsChecked[] = $gap;
+            }
+            if ($editPitch->sunday && $gap->getId() === 7) {
+                $gapsChecked[] = $gap;
+            }
+        }
+        $this->gaps = $gapsChecked;
+        $this->address = $editPitch->address;
     }
 
     public function getId(): ?int
@@ -79,5 +142,15 @@ class Pitch
     public function getClub(): ?Club
     {
         return $this->club;
+    }
+
+    public function setClub($club): void
+    {
+        $this->club = $club;
+    }
+
+    public function getTeams()
+    {
+        return $this->teams;
     }
 }

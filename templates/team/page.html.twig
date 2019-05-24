@@ -38,6 +38,22 @@
             {{ form_widget( editTeamForm.active, {'attr': {'class': 'form-control'}} ) }}
         </div>
 
+        {% if club.pitches is defined %}
+            <div class="form-group">
+                {% for clubPitch in club.pitches %}
+                    <div>
+                        <input type="checkbox" name="pitches[]" {% if team.id is defined %}{% for teamPitch in team.pitches %}{% if teamPitch.id == clubPitch.id %}checked{% endif %}{% endfor %}{% endif %} value="{{ clubPitch.id }}"/>
+                        {{ clubPitch.address }}
+                        {% if clubPitch.teams|length > 1 %}
+                            <span class="float-right text-danger">utilisé par {{ clubPitch.teams|length }} équipes</span>
+                        {% else %}
+                            <span class="float-right text-primary">utilisé par {{ clubPitch.teams|length }} équipe </span>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
         <div class="d-flex justify-content-end">
             <button class="btn btn-primary" type="submit">Modifier l'équipe</button>
         </div>

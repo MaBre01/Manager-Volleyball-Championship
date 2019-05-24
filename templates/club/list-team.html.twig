@@ -20,6 +20,9 @@
                     <li class="list-group-item d-flex justify-content-between m-1 rounded">
                         {{ team.name }}
                         <div>
+                            {% if team.active == 0 %}
+                                <span class="badge badge-danger text-wrap">Inactive</span>
+                            {% endif %}
                             <a class="btn btn-outline-info" href="{{ path('page_team', {'teamId': team.id}) }}">Voir la page</a>
                             <button class="btn btn-outline-danger supprimer" data-Id="{{ team.id }}">Supprimer l'équipe</button>
                         </div>
