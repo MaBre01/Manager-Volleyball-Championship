@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h1>Déclarer une équipe forfait</h1>
+
+    <form method="post">
+
+        <div class="form-group">
+            <label for="teamForfeit">Equipe forfait : </label>
+            <select class="form-control" name="teamForfeit" id="teamForfeit">
+                <option value="NONE" {% if teamForfeit == "NONE" %}selected{% endif %}>Aucune</option>
+                <option value="HOMETEAM" {% if teamForfeit == "HOMETEAM" %}selected{% endif %}>(Domicile) {{ game.homeTeam.name }}</option>
+                <option value="OUTSIDETEAM" {% if teamForfeit == "OUTSIDETEAM" %}selected{% endif %}>(Extérieur) {{ game.outsideTeam.name }}</option>
+            </select>
+        </div>
+
+        <button class="btn btn-primary" type="submit">Déclarer</button>
+    </form>
+
+{% endblock %}

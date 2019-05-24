@@ -41,6 +41,7 @@ class Championship
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Team", mappedBy="championship")
+     * @ORM\OrderBy({"point" = "desc"})
      */
     private $teams;
 

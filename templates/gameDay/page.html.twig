@@ -6,9 +6,9 @@
     {% include "championship/partial/menu.html.twig" %}
 
     <div class="d-flex justify-content-center m-4">
-        <form class="form-inline mx-auto" method="get">
+        <form class="form-inline mx-auto" method="post">
 
-            <select class="form-control" name="gameDay" id="">
+            <select class="form-control" name="idGameDay" id="">
                 <option value="0">Choix de la journée</option>
 
                 {% for gameDay in championship.gameDays %}
@@ -41,9 +41,15 @@
             {% for game in gameDayActive.games %}
 
                 <tr>
-                    <td>{{ game.homeTeam.name }}</td>
-                    <td>0 - 2</td>
-                    <td>{{ game.outsideTeam.name }}</td>
+                    <td>
+                        <a href="{{ path("page_team", {teamId: game.homeTeam.id}) }}">{{ game.homeTeam.name }}</a>
+                    </td>
+                    <td>
+                        <a href="{{ path("page_game", {championshipId: championship.id, gameDayId: gameDayActive.id, gameId: game.id} ) }}">{{ game.homeTeamScore }} - {{ game.outsideTeamScore }}</a>
+                    </td>
+                    <td>
+                        <a href="{{ path("page_team", {teamId: game.outsideTeam.id}) }}">{{ game.outsideTeam.name }}</a>
+                    </td>
                 </tr>
 
             {% endfor %}

@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Form\EditSetPoint;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -37,11 +38,49 @@ class SetPoint
      */
     private $game;
 
-    public function __construct(int $homeTeamPoint, int $outsideTeamPoint, int $number)
+    public function __construct(int $id, int $homeTeamPoint, int $outsideTeamPoint, int $number, Game $game)
     {
+        $this->id = $id;
         $this->homeTeamPoint = $homeTeamPoint;
         $this->outsideTeamPoint = $outsideTeamPoint;
+        $this->game = $game;
         $this->number = $number;
+    }
+
+    public static function create(EditSetPoint $editSetPoint): self
+    {
+        return new self($editSetPoint->id, $editSetPoint->homeTeamPoint, $editSetPoint->outsideTeamPoint, $editSetPoint->number, $editSetPoint->game);
+    }
+
+    public function isHomeTeamWinner(): bool
+    {
+        if( $this->homeTeamPoint > $this->outsideTeamPoint ){
+            return true;
+        }
+
+        return false;
+    }
+
+    public function isTeamWinner(Team $team): bool
+    {
+        if( $team == $this->game->getHomeTeam() ){
+            return $this->isHomeTeamWinner();
+        }
+        elseif( $team == $this->game->getOutsideTeam() ){
+            return ! $this->isHomeTeamWinner();
+        }
+
+        return null;
+    }
+
+    public function changeHomeTeamPoint(int $homeTeamPoint): void
+    {
+        $this->homeTeamPoint = $homeTeamPoint;
+    }
+
+    public function changeOutsideTeamPoint(int $outsideTeamPoint): void
+    {
+        $this->outsideTeamPoint = $outsideTeamPoint;
     }
 
     public function getId(): ?int

@@ -2,6 +2,6 @@
     <div class="btn-group mx-auto" role="group">
         <a class="btn btn-secondary {% if app.request.attributes.get('_route') == 'page_championship' %}active{% endif %}" href="{{ path("page_championship", {championshipId: championship.id}) }}">Informations</a>
         <a class="btn btn-secondary {% if app.request.attributes.get('_route') == 'ranking_championship' %}active{% endif %}" href="{{ path("ranking_championship", {championshipId: championship.id}) }}">Classement des équipes</a>
-        <a class="btn btn-secondary {% if app.request.attributes.get('_route') == 'results_championship' %}active{% endif %}" href="{{ path("results_championship", {championshipId: championship.id}) }}">Résultats</a>
+        <a class="btn btn-secondary {% if app.request.attributes.get('_route') == 'actual_game-day' %}active{% endif %}" href="{{ path("actual_game-day", {championshipId: championship.id}) }}">Résultats</a>
     </div>
 </div>
