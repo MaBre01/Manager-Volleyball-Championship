@@ -28,43 +28,50 @@ class EditPitchType extends AbstractType
             ->add(
                 'monday',
                 CheckboxType::class, [
-                    'required' => false
-                ]
+                    'required' => false,
+                    'label' => 'Lundi'
+               ]
             )
             ->add(
                 'tuesday',
                 CheckboxType::class, [
-                    'required' => false
+                    'required' => false,
+                    'label' => 'Mardi'
                 ]
             )
             ->add(
                 'wednesday',
                 CheckboxType::class, [
-                    'required' => false
+                    'required' => false,
+                    'label' => 'Mercredi'
                 ]
             )
             ->add(
                 'thursday',
                 CheckboxType::class, [
                     'required' => false,
+                    'label' => 'Jeudi'
                 ]
             )
             ->add(
                 'friday',
                 CheckboxType::class, [
-                    'required' => false
+                    'required' => false,
+                    'label' => 'Vendredi'
                 ]
             )
             ->add(
                 'saturday',
                 CheckboxType::class, [
-                    'required' => false
+                    'required' => false,
+                    'label' => 'Samedi'
                 ]
             )
             ->add(
                 'sunday',
                 CheckboxType::class, [
-                    'required' => false
+                    'required' => false,
+                    'label' => 'Dimanche'
                 ]
             )
         ;

@@ -2,7 +2,7 @@
 
 {% block body %}
     <div class="col-md-5 mx-auto">
-        <h4 class="text-center mb-4">Connexion</h4>
+        <h4 class="text-center my-4">Connexion</h4>
 
         {% if error %}
             <div class="alert alert-danger">{{ error.messageKey | trans(error.messageData, 'security') }}</div>
