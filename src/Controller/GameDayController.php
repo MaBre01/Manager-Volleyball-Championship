@@ -10,6 +10,7 @@ use App\Form\EditGameDayDateType;
 use App\Repository\ChampionshipRepository;
 use App\Repository\GameDayRepository;
 use App\Repository\GameRepository;
+use App\Utility\CalendarGenerator;
 use App\Utility\GameDaysGenerator;
 use App\Utility\GamePairGenerator;
 use App\Utility\GamesDispatcher;
@@ -105,7 +106,7 @@ class GameDayController extends AbstractController
     }
 
     /**
-     * @Route("championship/generate-calendar", name="generate_calendar")
+     * @Route("generate-calendar", name="generate_calendar")
      */
     public function generateCalendar(ChampionshipRepository $championshipRepository, GameRepository $gameRepository, GameDayRepository $gameDayRepository): Response
     {
@@ -154,6 +155,16 @@ class GameDayController extends AbstractController
         $editGameDayForm = $this->createForm(EditGameDayDateType::class, $entity, [
             "gameDays" => $gameDaysMax
         ]);
+
+        /*$calendarGenerator = new CalendarGenerator( $championships );
+        $calendarGenerator->generateChampionshipsGames();
+        $calendarGenerator->generateGameDays();
+        // $calendarGenerator->dispatchGamesInChampionships();
+
+        dump( $calendarGenerator->getGamePairs() );
+
+
+        return new Response('ok');*/
 
 
 
