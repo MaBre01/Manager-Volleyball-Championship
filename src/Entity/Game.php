@@ -57,6 +57,7 @@ class Game
         $this->outsideTeam = $outsideTeam;
         $this->gameDay = $gameDay;
         $this->forfeit = $forfeit;
+        $this->finish = false;
 
         $this->sets = new ArrayCollection();
     }
