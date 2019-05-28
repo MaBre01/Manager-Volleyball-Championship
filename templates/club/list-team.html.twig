@@ -7,9 +7,11 @@
 
     <h2>Les équipes</h2>
 
-    <div class="d-flex justify-content-end">
-        <a class="btn btn-primary" href="{{ path('add_team_club', {clubId: club.id}) }}"><i class="fas fa-plus"></i> Ajouter une équipe</a>
-    </div>
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="d-flex justify-content-end">
+            <a class="btn btn-primary" href="{{ path('add_team_club', {clubId: club.id}) }}"><i class="fas fa-plus"></i> Ajouter une équipe</a>
+        </div>
+    {% endif %}
 
     <span>
         <ul class="list-group my-2" id="teams-list">
@@ -23,8 +25,12 @@
                             {% if team.active == 0 %}
                                 <span class="badge badge-danger text-wrap">Inactive</span>
                             {% endif %}
-                            <a class="btn btn-outline-info" href="{{ path('page_team', {'teamId': team.id}) }}">Voir la page</a>
-                            <button class="btn btn-outline-danger supprimer" data-Id="{{ team.id }}">Supprimer l'équipe</button>
+                            {% if app.user and (is_granted('ROLE_ADMIN') or app.user.username == team.account.email) %}
+                                <a class="btn btn-outline-info" href="{{ path('page_team', {'teamId': team.id}) }}">Voir la page</a>
+                            {% endif %}
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <button class="btn btn-outline-danger supprimer" data-Id="{{ team.id }}">Supprimer l'équipe</button>
+                            {% endif %}
                         </div>
                     </li>
 

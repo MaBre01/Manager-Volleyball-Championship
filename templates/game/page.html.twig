@@ -12,15 +12,17 @@
     {% if game.isFinish %}
 
     {% else %}
-
-        <a href="{{ path("finish_game", {championshipId: championship.id, gameDayId: game.gameDay.id, gameId: game.id}) }}">Finir le match</a>
-
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="{{ path("finish_game", {championshipId: championship.id, gameDayId: game.gameDay.id, gameId: game.id}) }}">Finir le match</a>
+        {% endif %}
     {% endif %}
 
     <div>Sets</div>
 
-    <a href="{{ path("add_set", {championshipId: championship.id, gameDayId: game.gameDay.id, gameId: game.id}) }}">Ajouter un set</a>
-    <a href="{{ path("forfeit_game", {championshipId: championship.id, gameDayId: game.gameDay.id, gameId: game.id}) }}">Déclarer un forfait</a>
+    {% if app.user and (is_granted('ROLE_ADMIN') or app.user.username == game.homeTeam.account.email or app.user.username == game.outsideTeam.account.email) %}
+        <a href="{{ path("add_set", {championshipId: championship.id, gameDayId: game.gameDay.id, gameId: game.id}) }}">Ajouter un set</a>
+        <a href="{{ path("forfeit_game", {championshipId: championship.id, gameDayId: game.gameDay.id, gameId: game.id}) }}">Déclarer un forfait</a>
+    {% endif %}
 
     <table class="table">
         <thead>

@@ -7,9 +7,11 @@
 
     <h2>Les terrains</h2>
 
-    <div class="d-flex justify-content-end">
-        <a class="btn btn-primary" href="{{ path("add_pitch_club", {clubId: club.id}) }}"><i class="fas fa-plus"></i> Ajouter un terrain</a>
-    </div>
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="d-flex justify-content-end">
+            <a class="btn btn-primary" href="{{ path("add_pitch_club", {clubId: club.id}) }}"><i class="fas fa-plus"></i> Ajouter un terrain</a>
+        </div>
+    {% endif %}
 
     <span>
         <div class="d-flex flew-wrap justify-content-around m-4" id="pitches-list">
@@ -23,8 +25,10 @@
                             <div class="card-title text-center text-uppercase">Terrain {{ loop.index }}</div>
                             <hr>
                             <p class="card-text">{{ pitch.address }}</p>
-                            <a class="btn btn-outline-info" href="{{ path('page_pitch', {'pitchId': pitch.id}) }}">Voir</a>
-                            <button class="btn btn-outline-danger supprimer" data-Id="{{ pitch.id }}">Supprimer</button>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <a class="btn btn-outline-info" href="{{ path('page_pitch', {'pitchId': pitch.id}) }}">Voir</a>
+                                <button class="btn btn-outline-danger supprimer" data-Id="{{ pitch.id }}">Supprimer</button>
+                            {% endif %}
                         </div>
                     </div>
 

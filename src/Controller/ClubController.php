@@ -218,10 +218,10 @@ class ClubController extends AbstractController
             $club = $clubRepository->getById( $clubId );
         }
         catch(ClubNotFound $exception){
-            return $this->redirectToRoute("list_club");
+            return $this->redirectToRoute('list_club');
         }
 
-        return $this->render("club/list-pitch.html.twig", [
+        return $this->render('club/list-pitch.html.twig', [
             "club" => $club
         ]);
     }
@@ -253,8 +253,8 @@ class ClubController extends AbstractController
 
             $clubRepository->save($club);
 
-            return $this->render('club/list-pitch.html.twig', [
-                'club' => $club
+            return $this->redirectToRoute('list_pitch_club', [
+                'clubId' => $club->getId()
             ]);
         }
 
@@ -303,7 +303,7 @@ class ClubController extends AbstractController
             $pitchRepository->save( $pitch );
 
             return $this->redirectToRoute('list_pitch_club', [
-                "clubId" => $pitch->getClub()->getId()
+                'clubId' => $pitch->getClub()->getId()
             ]);
         }
 
@@ -316,7 +316,7 @@ class ClubController extends AbstractController
     /**
      * @Route("/pitch/{pitchId}/remove", name="remove_pitch")
      */
-    public function removeTeam(int $pitchId, PitchRepository $pitchRepository): Response
+    public function removePitch(int $pitchId, PitchRepository $pitchRepository): Response
     {
         try{
             $pitch = $pitchRepository->getById($pitchId);
@@ -327,6 +327,8 @@ class ClubController extends AbstractController
 
         $pitchRepository->remove($pitch);
 
-        return $this->redirectToRoute('list_pitch_club');
+        return $this->redirectToRoute('list_pitch_club', [
+            "clubId" => $pitch->getClub()->getId()
+        ]);
     }
 }

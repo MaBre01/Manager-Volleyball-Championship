@@ -3,9 +3,11 @@
 {% block body %}
     <h1 class="text-center my-2">Les clubs</h1>
 
-    <div class="d-flex justify-content-end">
-        <a class="btn btn-primary" href="{{ path('add_club') }}"><i class="fas fa-plus"></i> Ajouter un club</a>
-    </div>
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="d-flex justify-content-end">
+            <a class="btn btn-primary" href="{{ path('add_club') }}"><i class="fas fa-plus"></i> Ajouter un club</a>
+        </div>
+    {% endif %}
 
     <span>
         <ul class="list-group my-2" id="clubs-list">
@@ -17,7 +19,9 @@
                         <span>{{ club.name }}</span>
                         <div>
                             <a class="btn btn-outline-info" href="{{ path('page_club', {clubId: club.id}) }}">Voir page</a>
-                            <button class="btn btn-outline-danger supprimer" data-Id="{{ club.id }}">Supprimer club</button>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <button class="btn btn-outline-danger supprimer" data-Id="{{ club.id }}">Supprimer club</button>
+                            {% endif %}
                         </div>
                     </li>
 

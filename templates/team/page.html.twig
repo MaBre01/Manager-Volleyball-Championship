@@ -54,9 +54,11 @@
             </div>
         {% endif %}
 
-        <div class="d-flex justify-content-end">
-            <button class="btn btn-primary" type="submit">Modifier l'équipe</button>
-        </div>
+        {% if app.user and app.user.username == team.account.email %}
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-primary" type="submit">Modifier l'équipe</button>
+            </div>
+        {% endif %}
 
         {{ form_end( editTeamForm ) }}
     </div>
