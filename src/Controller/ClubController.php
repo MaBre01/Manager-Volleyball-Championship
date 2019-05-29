@@ -182,10 +182,10 @@ class ClubController extends AbstractController
 
             $tmpPassword = random_int(10000,999999);
 
-            $message = (new \Swift_Message('Changement de mot de passe'))
+            $message = (new \Swift_Message('Mot de passe'))
                 ->setFrom('volleyballchampionshipmanager@gmail.com', 'Volleyball CM')
                 ->setTo($editTeam->email)
-                ->setBody($tmpPassword)
+                ->setBody('Votre mot de passe est ' . $tmpPassword)
             ;
 
             $mailer->send($message);
